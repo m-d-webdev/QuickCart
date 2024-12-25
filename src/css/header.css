@@ -1,0 +1,408 @@
+#headerWebsite {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logoPage {
+    font-size: 25px;
+    font-family: "Parkinsans", sans-serif;
+    font-weight: 900;
+
+}
+
+.searchBareElem {
+    cursor: pointer;
+    /* border: solid 1px  var(--border-color); */
+    padding: 4px 20px;
+    border-radius: 20px;
+}
+
+.searchBareElem input {
+    border: none;
+    width: 100%;
+}
+
+.ulMenu li:hover:after {
+    width: 100%;
+}
+
+.ulMenu li {
+    position: relative;
+}
+
+.ulMenu li:after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    transition: .2s;
+    height: 2px;
+    /* left: 0; */
+    width: 0;
+    border-radius: 100%;
+    background-color: var(--bg-secondary);
+}
+
+
+
+
+.souCart.inactive {
+    animation: animateSouProfileinactive .2s ease-in;
+}
+
+.souProfile {
+    position: absolute;
+    filter: drop-shadow(-5px 10px 20px var(--filter-color));
+    animation: animateSouProfile .2s ease;
+    top: 10px;
+    z-index: 2;
+    right: 0px;
+}
+
+.souCart {
+    position: absolute;
+    filter: drop-shadow(-5px 10px 20px var(--filter-color));
+    animation: animateSouProfile .2s ease;
+    top: 5px;
+    z-index: 2;
+    right: 0px;
+}
+
+@keyframes animateSouProfile {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+@keyframes animateSouProfileinactive {
+
+    0% {
+        position: absolute;
+        filter: drop-shadow(-5px 10px 20px var(--filter-color));
+        animation: animateSouProfile .2s ease;
+        top: 10px;
+        right: 0px;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+.listCardItems {
+    max-height: 600px;
+    padding-right: 20px;
+    overflow: auto;
+    min-height: 200px;
+    transition: .2s;
+}
+
+.spPrded strong {
+    margin-left: 10px;
+    white-space: nowrap;
+    font-size: 15px;
+}
+
+.listCardItems .spPrded:first-child .cntDisplayCartItem {
+    top: 0;
+}
+
+.listCardItems .spPrded:nth-child(2) .cntDisplayCartItem {
+    top: 0;
+}
+
+.spPrded:hover .cntDisplayCartItem {
+    display: flex;
+}
+
+.spPrded {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: aniamteaasdf .3s ease;
+}
+
+.cntDisplayCartItem img {
+    max-width: 100%;
+    max-height: 300px;
+}
+
+.cntDisplayCartItem:hover {
+    display: block;
+}
+
+.cntDisplayCartItem {
+    position: absolute;
+    right: 101%;
+    animation: animateImasg .2s;
+    display: none;
+    z-index: 2;
+}
+
+@keyframes animateImasg {
+    0% {
+        opacity: 0;
+    }
+}
+
+@keyframes aniamteaasdf {
+    0% {
+        min-height: 0;
+        opacity: 0;
+        padding: 0;
+    }
+}
+
+.tbnGoToCart:hover {
+    background-color: var(--bg-secondary);
+    color: var(--bg-primary);
+}
+
+.tbnGoToCart {
+    width: 150px;
+    border: solid 1px var(--border-color);
+    border-radius: 20px;
+}
+
+/*  */
+.spCountCart {
+    top: -15px;
+    right: 0;
+    background-color: red;
+    color: #fff;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+
+    font-weight: 600;
+    font-size: 12px;
+    position: absolute;
+}
+
+.spCountCart2 {
+    top: -17px;
+    right: -20px;
+    background-color: red;
+    color: #fff;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+
+    font-weight: 600;
+    font-size: 12px;
+    position: absolute;
+}
+
+@media screen and (max-width: 800px) {
+    #headerWebsite {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .logoPage {
+        font-size: 18px;
+        font-family: "Parkinsans", sans-serif;
+        font-weight: 900;
+
+    }
+
+    .searchBareElem {
+        cursor: pointer;
+        /* border: solid 1px  var(--border-color); */
+        padding: 4px 5px;
+        border-radius: 20px;
+    }
+
+    .searchBareElem input {
+        border: none;
+        width: 100%;
+    }
+
+    .cntSdeHeader {
+        width: 40%;
+    }
+
+    .ulMenu {
+        margin: 0 !important;
+        width: 100%;
+        justify-content: space-evenly;
+    }
+
+
+    .ulMenu li {
+        margin: 0 !important;
+        margin-left: 5px !important;
+    }
+
+
+    .HeaderSection2>* {
+        margin: 0 !important;
+    }
+
+    .HeaderSection2 {
+        position: fixed;
+        width: 100%;
+        bottom: 0px !important;
+        justify-content: space-around;
+        padding: 10px;
+        padding-top: 20px;
+        background-color: var(--bg-primary);
+        z-index: 2;
+        left: 0 !important;
+    }
+
+
+    .souProfile {
+        position: fixed;
+        filter: drop-shadow(-5px 10px 20px var(--filter-color));
+        animation: animateSouProfile2 .1s ease;
+        bottom: 10px;
+        top: auto !important;
+        right: 0px;
+        height: auto !important;
+        z-index: 2;
+    }
+
+    .btnGoToMainPage {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .souCart {
+        position: fixed;
+        filter: drop-shadow(-5px 10px 20px var(--filter-color));
+        animation: animateSouProfile2 .1s ease;
+        bottom: 10px;
+        padding-top: 40px;
+        top: auto !important;
+        right: 20px;
+        height: auto !important;
+        z-index: 5 !important;
+    }
+
+    .BtnCloseSouCat {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+
+    @keyframes animateSouProfile2 {
+        0% {
+            opacity: 0;
+            transform:translateY(50px);
+            /* width: 0; */
+            bottom: 0;
+        
+        }
+    }
+
+    @keyframes animateSouProfileinactive {
+
+        0% {
+            position: absolute;
+            filter: drop-shadow(-5px 10px 20px var(--filter-color));
+            animation: animateSouProfile .2s ease;
+            top: 10px;
+            right: 0px;
+        }
+
+        100% {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+    }
+
+    .listCardItems {
+        max-height: 600px;
+        padding-right: 20px;
+        overflow: auto;
+        min-height: 200px;
+        transition: .2s;
+    }
+
+    .spPrded strong {
+        margin-left: 10px;
+        white-space: nowrap;
+        font-size: 15px;
+    }
+
+
+    .spPrded {
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation: aniamteaasdf .3s ease;
+    }
+
+
+
+    .cntDisplayCartItem {
+        display: none !important;
+    }
+
+    @keyframes animateImasg {
+        0% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes aniamteaasdf {
+        0% {
+            min-height: 0;
+            opacity: 0;
+            padding: 0;
+        }
+    }
+
+    .tbnGoToCart:hover {
+        background-color: var(--bg-secondary);
+        color: var(--bg-primary);
+    }
+
+    .tbnGoToCart {
+        width: 150px;
+        border: solid 1px var(--border-color);
+        border-radius: 20px;
+    }
+
+    /*  */
+    .spCountCart {
+        top: -15px;
+        right: 0;
+        background-color: red;
+        color: #fff;
+        border-radius: 50%;
+        width: 17px;
+        height: 17px;
+
+        font-weight: 600;
+        font-size: 12px;
+        position: absolute;
+    }
+
+    .spCountCart2 {
+        top: -17px;
+        right: -20px;
+        background-color: red;
+        color: #fff;
+        border-radius: 50%;
+        width: 17px;
+        height: 17px;
+
+        font-weight: 600;
+        font-size: 12px;
+        position: absolute;
+    }
+
+    .UserImgsProf {
+        width: 30px;
+        height: 30px;
+    }
+}

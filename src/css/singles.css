@@ -1,0 +1,619 @@
+/* displayRattngsCmp *---------------------------- */
+.displayRattngsCmp {
+    position: absolute;
+    left: 100%;
+    width: 370px;
+    filter: drop-shadow(0 0 10px var(--filter-color));
+    top: 0;
+    z-index: 2;
+    animation: animateCard .2s;
+}
+
+@keyframes animateCard {
+    0% {
+        width: 0;
+        height: 0;
+    }
+}
+
+.cntINputsRang .rangerInpu span {
+    border-radius: 0 4px 4px 0;
+    height: 100%;
+    min-width: .2%;
+    animation: animatearea .2s ease-out;
+    background-color: #FFD814;
+}
+
+@keyframes animatearea {
+    0% {
+        width: 0;
+    }
+}
+
+.cntINputsRang .rangerInpu {
+    width: 100%;
+    height: 20px;
+    position: relative;
+}
+
+/* B T N S    <O R D E R  ----------------*/
+.btnOrder svg {
+    fill: #fff;
+}
+
+.btnOrder {
+    margin: auto;
+    background-color: #2fa708;
+    width: 300px;
+    font-weight: 600;
+    color: #fff;
+    position: relative;
+    font-size: 17px;
+}
+
+.tbnAddToCArt svg {
+    fill: black;
+}
+
+.tbnAddToCArt h2 {
+    color: black;
+}
+
+.tbnAddToCArt .spinner {
+    margin: auto;
+    width: 20px;
+    height: 20px;
+    border-width: 4px;
+}
+
+.sayRemoveFromCart {
+    cursor: pointer;
+    transform: none !important;
+    transition: 0s;
+    color: rgb(181, 95, 95);
+    font-weight: 600;
+}
+
+.tbnAddToCArt {
+    width: 80%;
+    max-width: 200px;
+    color: #000;
+    position: relative;
+    transition: 1s;
+    background-color: #FFD814;
+}
+
+/*  */
+.slider {
+    position: absolute;
+    left: 0;
+    background-color: var(--bg-secondary);
+    width: 2px;
+    min-height: 30px;
+}
+
+/*  */
+.cntViewProdElme {
+    width: 98%;
+}
+
+.iconePassConfirm {
+    position: absolute;
+    bottom: -25px;
+    width: 15px;
+    height: 15px;
+    right: 10px;
+}
+
+/* -------------------------------------    P R O F I L E *---------------- */
+.profileCmp {
+    width: 100%;
+    min-height: 500px;
+    max-width: 1200px;
+    padding-top: 40px;
+}
+
+.ctnBtnChangeProfPic button {
+    cursor: pointer;
+}
+
+
+
+.ctnBtnChangeProfPic {
+    filter: drop-shadow(0 0 10px var(--filter-color));
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    animation: animateCntEditP .15s ease;
+}
+
+@keyframes animateCntEditP {
+    0% {
+        transform: scale(0.95);
+    }
+}
+
+.cntDeautlAddress {
+    background-color: var(--bg-third);
+}
+
+.btnEditAddr:hover {
+    opacity: 1;
+}
+
+.btnEditAddr {
+    position: absolute;
+    right: 10px;
+    transition: .2s;
+    opacity: .3;
+    cursor: pointer;
+}
+
+.listOfItems {
+    max-height: 400px;
+    overflow: auto;
+    padding-left: 50px;
+}
+
+.addressElemesd button:hover {
+    opacity: 1;
+}
+
+.addressElemesd button {
+    cursor: pointer;
+    opacity: .6;
+}
+
+.addressElemesd {
+    background-color: var(--bg-third);
+}
+
+.iconeIsdefault:hover {
+    opacity: 1;
+}
+
+.iconeIsdefault {
+    position: absolute;
+    cursor: pointer;
+    left: -42px;
+    opacity: .7;
+}
+
+.TenDoneContainer.inactive {
+    animation: animateTenDone2 .3s ease;
+
+}
+
+.TenDoneContainer {
+    position: fixed;
+    top: 5px;
+    z-index: 10;
+    left: 50px;
+    animation: animateTenDone .3s ease;
+}
+
+@keyframes animateTenDone {
+    0% {
+        top: -100px;
+    }
+}
+
+@keyframes animateTenDone2 {
+    100% {
+        top: -100px;
+    }
+}
+
+.AddCardCmp {
+    padding-top: 40px;
+}
+
+.AddCardCmp input:focus+label,
+.AddCardCmp input:not(:placeholder-shown)+label {
+    transform: translateY(-22px) !important;
+}
+
+.AddCardCmp input {
+    margin-bottom: 15px;
+    /* padding:20px; */
+}
+
+.cntCardsTypes span#active svg {
+    display: block;
+}
+
+.cntCardsTypes span svg {
+    top: 2px;
+    right: 5px;
+    fill: var(--bg-blue);
+    position: absolute;
+    display: none;
+}
+
+.cntCardsTypes span {
+    width: 23%;
+    height: 50px;
+    padding-right: 18px;
+    display: flex;
+    justify-content: center;
+
+    align-items: center;
+}
+
+.cntCardsTypes span img {
+    max-width: 70%;
+    max-height: 50px;
+}
+
+.cntDefaultCard span {
+    width: 23%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.cntCardsTypes span#active {
+    border: solid 2px var(--bg-blue);
+    background-color: #fff;
+}
+
+.cntDefaultCard p:hover,
+.cntDefaultCard h2:hover {
+    opacity: 1;
+}
+
+.cntDefaultCard p,
+.cntDefaultCard h2 {
+    opacity: .6;
+    color: black;
+}
+
+.cntDefaultCard h1 {
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: black;
+    font-family: "Audiowide", sans-serif;
+}
+
+.cardNumberContainer {
+    font-size: 20px;
+    letter-spacing: 3px;
+    font-weight: 400;
+    font-family: "Audiowide", sans-serif;
+}
+
+.cntDefaultCard {
+    background-color: #fff;
+    color: #000;
+}
+
+.listAllCards .listCardElem p {
+    font-size: 15px;
+    letter-spacing: 2px;
+    font-family: "Audiowide", sans-serif;
+}
+
+.cardNumbreele {
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-family: "Audiowide", sans-serif;
+}
+
+.listAllCards .listCardElem span:hover {
+    opacity: 1;
+}
+
+.listAllCards .listCardElem span {
+    opacity: .6;
+    margin-left: 20px;
+}
+
+.listAllCards .listCardElem {
+    background-color: var(--bg-third);
+}
+
+.listAllCards {
+    width: 95%;
+    max-height: 300px;
+    overflow: auto;
+    margin-left: 15px;
+    margin-top: 10px;
+    padding-left: 50px;
+}
+
+/* ------------------------ */
+.listOfSameOfProds .cntProd {
+    min-width: 400px;
+}
+
+.listOfSameOfProds {
+    max-width: 100%;
+    width: 100%;
+    min-height: 400px;
+    overflow: auto;
+    overflow-y: hidden;
+    padding: 40px;
+    background-color: var(--bg-primary);
+}
+
+/*  */
+.CntBtnsManProdCart button svg {
+    fill: var(--bg-blue);
+    width: 20px;
+    height: 20px;
+}
+
+.CntBtnsManProdCart button {
+    color: var(--bg-blue);
+    border: solid 1px var(--bg-blue);
+    border-radius: 20px;
+}
+
+/* --------- */
+.ChoseededAddressStyle svg {
+    fill: #fff;
+}
+
+.ChoseededAddressStyle * {
+    color: #fff;
+}
+
+.ChoseededAddressStyle {
+    /* animation: animateActiveAd .1s; */
+    /* border: solid 2px var(--bg-blue); */
+    background-color: var(--bg-blue);
+}
+
+@keyframes animateActiveAd {
+    0% {
+        transform: scale(.9);
+    }
+}
+
+.btnStartOrder svg {
+    fill: black;
+}
+
+.btnStartOrder {
+    color: #000000;
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.orderStepsCm {
+    animation: animtedSt .2s;
+}
+
+
+@keyframes animtedSt {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+}
+
+.cntListProds2 {
+    width: 100%;
+    height: 500px;
+    overflow: auto;
+
+}
+
+.listProdusctListFou {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: start;
+    flex-wrap: wrap;
+    overflow: auto;
+    /* height: 80%; */
+    width: 100%;
+}
+
+.spnInfoOSsd h1 {
+    margin-left: 15px;
+}
+
+.spnInfoOSsd {
+    padding-bottom: 10px;
+    border-bottom: solid 1px var(--border-color);
+    width: 100%;
+}
+
+.spnInfoOSsd2 h1 {
+    font-size: 16px;
+    margin-left: 15px;
+}
+
+.spnInfoOSsd2 {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.btnCompleteOrder svg {
+    margin-left: 13px;
+    height: 30px;
+    width: 30px;
+}
+
+.btnCompleteOrder {
+    font-weight: 600;
+    border-radius: 10px;
+    background-color: #50ff15;
+    padding: 10px;
+}
+
+.btnCancelOrder svg {
+    margin-left: 10px;
+    fill: red;
+}
+
+.btnCancelOrder {
+    border: solid 2px red;
+    color: red;
+}
+
+.btnDownlasdInvi svg {
+    margin-left: 10px;
+    fill: var(--bg-blue);
+}
+
+.btnDownlasdInvi {
+    border: solid 2px var(--bg-blue);
+    color: var(--bg-blue);
+}
+
+
+/* -- */
+
+.NotifiNum {
+    font-size: 12px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    background-color: red;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+}
+
+/* *----------------- */
+.introPageStyle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    position: absolute;
+    z-index: -1;
+}
+
+.introPageStyle h1 {
+    z-index: 2;
+    color: #fff;
+    font-size: 25px;
+}
+
+.introPageStyle::after {
+    content: "";
+    width: 100%;
+    height: 60%;
+    top: 0;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    /* background-color: black; */
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.007) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.82) 100%);
+}
+
+.introPageStyle {
+    margin-top: 50px;
+    margin-bottom: 100px;
+    max-width: 900px;
+}
+
+
+@media screen and (max-width:800px) {
+    .cntViewProdElm {
+        flex-direction: column;
+    }
+
+    .BtnOrderCnotein {
+        width: 50%;
+    }
+
+    .BtnAddddToooCart button {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    .BtnAddddToooCart {
+        width: 100%;
+    }
+
+    .btnOrder {
+        width: 100% !important;
+    }
+
+    .tbnAddToCArt {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    .FielsDesSds {
+        z-index: -1;
+        top: 0;
+        position: absolute;
+    }
+
+    .TenDoneContainer.inactive {
+        animation: animateTenDone2 .2s ease;
+
+    }
+
+    .TenDoneContainer {
+        position: fixed;
+        border-radius: 5px;
+        top: 1px;
+        z-index: 10;
+        padding: 5px;
+        justify-content: start;
+        left: 0;
+        animation: animateTenDone .2s ease;
+    }
+
+    .sideBareProfile2 svg {
+        width: 25px;
+        height: 25px;
+    }
+
+    .sideBareProfile2 span#active svg,
+    .sideBareProfile2 span#active p,
+    .sideBareProfile2 span#active {
+        color: #fff;
+        fill: #fff;
+        background-color: var(--bg-blue);
+    }
+
+    .sideBareProfile2 span {
+        padding: 10px;
+        border-radius: 10px;
+        width: 30%;
+        background-color: var(--bg-third);
+    }
+
+    .sideBareProfile2 {
+        margin-top: 30px;
+    }
+
+    .listOfItems {
+        max-height: 800px;
+        padding: 0 !important;
+        overflow: auto;
+        padding-left: 40px !important;
+    }
+
+    .iconeIsdefault {
+        position: absolute;
+        cursor: pointer;
+        left: -35px;
+        opacity: .7;
+    }
+
+    .listAllCards {
+        width: 100%;
+        max-height: none;
+        overflow: auto;
+        margin-left: 15px;
+        margin-top: 40px;
+        padding-left: 40px;
+    }
+    .CNT_COFIRM_PASS{
+        width: 100%;
+    }
+}
