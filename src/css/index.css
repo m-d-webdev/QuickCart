@@ -1753,4 +1753,14 @@ select {
         margin-left: 40px;
     }
 
+    .spinner2 {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin: auto;
+        align-self: center;
+        border: 3px solid var(--bg-secondary);
+        animation: spinner-bulqg1 0.96s infinite linear alternate,
+            spinner-oaa3wk 1.92s infinite linear;
+    }
 }

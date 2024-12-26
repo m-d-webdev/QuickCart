@@ -109,6 +109,7 @@ export const SavedProdsPage = () => {
     const [isLoadingDat, setisLoadingDat] = useState(true);
     const [isLoadingNEWPRD, setisLoadingNEWPRD] = useState(false);
     const [prodsRealData, setprodsRealData] = useState([]);
+    const isWorkingOnPC = window.innerWidth > 800
     const nav = useNavigate()
     const AddNewPrdLoding = () => {
         return (
@@ -175,34 +176,69 @@ export const SavedProdsPage = () => {
         });
     }, [isLoadingNEWPRD])
 
-
-    return (
-        <>
-            {viewProdVsbl && <ViewProd />}
-            <div ref={MainPageProdRef} style={{ minHeight: "800px" }} className="wima c-s-s p10 mt20">
-                <div className="c-s-s wmia h400 introPageStyle psr">
-                    <h1 className='ml20 mt50 '>Saved Products</h1>
-                    <img src="imgs/freepik__adjust__73564.png" alt="" />
+    if (isWorkingOnPC) {
+        return (
+            <>
+                {viewProdVsbl && <ViewProd />}
+                <div ref={MainPageProdRef} style={{ minHeight: "800px" }} className="wima c-s-s p10 mt20">
+                    <div className="c-s-s wmia h400 introPageStyle psr">
+                        <h1 className='ml20 mt10 '>Saved Products</h1>
+                        <img src="imgs/freepik__adjust__73564.png" alt="" />
+                    </div>
+                    {
+                        isLoadingDat ? <div className="loader"></div> :
+                            <div className="listOfAllSavedProds  wmia r-w-p-s">
+                                {prodsRealData.length == 0 ?
+                                    <div className='c-c-c '>
+                                        <img src="imgs/emptyCoasd.png" className='w400' alt="" />
+                                        <h1 className="logo mt20">No product has been saved yet.</h1>
+                                        <button onClick={() => nav("/Shop")} className='w300 bl p10 br20 mt50'>go shopping <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg> </button>
+                                    </div> :
+                                    <>
+                                        {prodsRealData.map(p => <div className='c-s-s' key={p.id}> <ProductCard product={p} /><BTN_MAN_SAVE_PRODS prodId={p.id} className={'mt20 bg-l w300 p10 br20 hoverEff2 '} /></div>)}
+                                        {isLoadingNEWPRD && <AddNewPrdLoding />}
+                                    </>
+                                } </div>
+                    }
                 </div>
-                {
-                    isLoadingDat ? <div className="loader"></div> :
-                        <div className="listOfAllSavedProds  wmia r-w-p-s">
-                            {prodsRealData.length == 0 ?
-                                <div className='c-c-c '>
-                                    <img  src="imgs/emptyCoasd.png" className='w400' alt="" />
-                                    <h1 className="logo mt20">No product has been saved yet.</h1>
-                                    <button onClick={() => nav("/Shop")} className='w300 bl p10 br20 mt50'>go shopping <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg> </button>
-                                </div> :
-                                <>
-                                    {prodsRealData.map(p => <div className='c-s-s' key={p.id}> <ProductCard product={p} /><BTN_MAN_SAVE_PRODS prodId={p.id} className={'mt20 bg-l w300 p10 br20 hoverEff2 '} /></div>)}
-                                    {isLoadingNEWPRD && <AddNewPrdLoding />}
-                                </>
-                            } </div>
-                }
-            </div>
-        </>
+            </>
 
-    )
+        )
+    } else {
+        return (
+            <>
+                <div ref={MainPageProdRef} style={{ minHeight: "800px" }} className="wima c-s-s p10 ">
+                    <div className="c-s-s wmia h200 introPageStyle psr">
+                        <h1 className='ml20  '>Saved Products</h1>
+                        <img src="imgs/freepik__adjust__73564.png" alt="" />
+                    </div>
+                    {viewProdVsbl && <ViewProd />}
+
+                    {
+                        isLoadingDat ? <div className="loader"></div> :
+                            <div className="wmia r-w-p-s" >
+                                {prodsRealData.length == 0 ?
+                                    <div className='c-c-c '>
+                                        <img src="imgs/emptyCoasd.png" className='w400' alt="" />
+                                        <h1 className="logo mt20" style={{ textAlign:"center"}}>No product has been saved yet.</h1>
+                                        <button onClick={() => nav("/Shop")} className='w300 bl p10 br20 mt50'>go shopping <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg> </button>
+                                    </div> :
+                                    <>
+                                        {prodsRealData.map(p =>
+                                            <div className='c-s-s  SavedlistcntProdCart' style={{
+                                                width:"48%"
+                                            }} key={p.id}> <ProductCard product={p} /><BTN_MAN_SAVE_PRODS prodId={p.id} className={'mt5 bg-l   br20 hoverEff2 '} />
+                                            </div>
+                                        )}
+                                        {isLoadingNEWPRD && <AddNewPrdLoding />}
+                                    </>
+                                } </div>
+                    }
+                </div>
+            </>
+
+        )
+    }
 
 }
 

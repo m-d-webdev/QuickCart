@@ -84,6 +84,7 @@ function App() {
         <Route path="/profile" element={<ProfileForPhones />} />
         <Route path="/add_payment_method" element={<AddPaymenthMethod />} />
         <Route path="/update_payment_method" element={<UpdatePaymenthMethod />} />
+        <Route path="/create_order" element={<CreateAnOrderCmp />} />
       </Routes>
       <footer className='mt100'>
         <div className='p20 mrauto bg-l' style={{ maxWidth: '1500px', }}>

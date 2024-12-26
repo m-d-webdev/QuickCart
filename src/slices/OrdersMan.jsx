@@ -190,7 +190,8 @@ const OrdersManSlice = createSlice({
     reducers: {
         startOrder: (state, action) => {
             state.NewOrderData = { ...state.NewOrderData, products: action.payload }
-            state.CmpVSBL = true;
+            const isWorkingOnPC = window.innerWidth > 800
+            isWorkingOnPC ? state.CmpVSBL = true : null
         },
         startCreation: (state) => {
             state.createOrderStep1 = true;
@@ -360,60 +361,131 @@ export default OrdersManSlice.reducer
 
 
 export const CreateAnOrderCmp = () => {
+    const isWorkingOnPC = window.innerWidth > 800;
+    const navigate = useNavigate()
     const { createOrderStep1, createOrderStep2, SendingOrderVSBL, NewOrderData, createOrderStep3, finaleSteps, orderCompleted } = useSelector(st => st.OrderMan)
     const dispatch = useDispatch();
-    const { havePaymenthMethod, AllPaymenthMethod, isLodingPay } = useSelector(s => s.paymentMethod)
+    const { AllPaymenthMethod, isLodingPay } = useSelector(s => s.paymentMethod)
     const { user } = useSelector(s => s.authe)
+    const MainOrderPagRef = useRef(null);
     const InitianleCreating = () => {
-        return (
-            <div className=' h600 w800 c-c-c'>
-                <img className='h300' src="imgs/3333449-removebg-preview.png" alt="" />
-                <h1 className="logo  mt20">Start creating a new order</h1>
-                <ul className='mt20 '>
-                    <p>There are 3 simple steps</p>
-                    <li><p className='ml10 mt5'>Step 1 : <strong className='ml10'>  Select your shipping address for the order. </strong></p></li>
-                    <li>
-                        <p className='ml10 mt5'>Step 2 : <strong className='ml10'> Choose payment method </strong></p>
-                    </li>
-                    <li>
-                        <p className='ml10 mt5'>Step 3 : <strong className='ml10'>Specify the quantity of products </strong></p>
-                    </li>
-                    <li>
-                        <p className='ml10 mt5'>And last one is <strong> complete the order</strong></p>
-                    </li>
-                </ul>
-                <button onClick={() => dispatch(startCreation())} className='btnStartOrder w400 p10 bg-g  mt20' style={{ color: "#fff" }}>Start
-                    <svg version="1.1" viewBox="0 0 2048 2048" className='ml20' style={{ fill: "#fff" }} xmlns="http://www.w3.org/2000/svg">
-                        <path transform="translate(1663)" d="m0 0h276l-2 1v2l-3 1-9-1 2 2-1 1 22 8 16 8 16 10 14 12 14 14 11 15 9 15 7 15 7 19 4 14 2-1v235l-2 6h2v45l-2-1-1-14-4 1-3 20-8 58-8 48-13 66-7 31-10 42-15 53-14 43-13 36-11 28-22 52-9 20-26 52-10 17-10 18-9 15-14 23-8 12-11 17-10 15-10 14-11 15-12 17-14 19-14 17-8 10-1 2h-2l-2 4-14 17-9 11-13 15-9 10-7 8-11 12-1 2h-2v2h-2v2h-2l-2 4-15 15-7 8-52 52-8 7-8 8-8 7-12 11h-2v2l-11 9-7 7-14 11-11 9-4 9-5 59-6 77-6 68-6 84-4 26-7 25-8 17-12 20-8 10-12 13-20 16-17 12-17 11-33 22-22 14-27 18-20 13-48 32-29 19-15 10-16 11-29 19-21 14-15 9-16 9-21 10-1 1h-61l-1-3h8l-10-6-16-8-11-6-13-11-11-15-11-21-7-24-5-27-9-56-16-104-7-49-3-15-1-2-19 5-5 1h-33l-23-5-25-9-11-6-12-8-13-10-13-12-8-7-108-108v-2l-4-2v-2l-4-2v-2l-3-1-5-6-6-5-6-7-6-5-6-7-6-5-6-7-8-7v-2l-3-1-5-6-4-3v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2-8-8v-2l-4-2-60-60v-2l-4-2v-2l-4-2-8-8v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2-20-20v-2h-2l-7-8-10-11-13-17-9-15-8-16-5-15-5-22-1-7v-22l2-18 2-11-7-3-21-4-42-7-46-7-85-13-38-6-24-5-15-5-15-8-11-8-10-9-9-11-7-11-11-20-3-5v-58l3-3 14-26 8-13 10-16 13-19 10-16 36-54 34-52 10-15 17-26 22-33 13-20 32-48 13-16 12-13 10-9 12-9 16-9 20-8 25-6 24-3 107-8 150-11 20-2 13-4 8-7 8-10 12-14 9-11 7-7 7-8 6-7 5-5 6-7 8-7 11-12 9-9 7-8 16-16 8-7 21-21 8-7 4-2v-2l8-7 10-9 15-13 10-9 11-9 8-7 9-7 11-9 9-7 15-12 17-13 19-14 13-9 14-10 24-16 17-11 19-12 22-13 18-10 29-16 44-22 24-11 28-12 24-10 34-13 46-16 44-13 42-11 48-12 50-10 44-8 61-9 61-8 11-1zm257 4m-160 116-51 2-64 5-50 6-55 8-38 7-51 11-50 13-32 9-41 13-28 10-26 10-32 13-30 13-30 14-19 10-27 14-17 10-19 11-17 11-16 10-14 9-10 7-18 13-19 13-12 9-17 13-8 7-14 11-13 11-11 9-10 9-11 9-10 9-8 7-7 7-8 7-9 9-8 7-44 44-7 8-11 11-7 8-7 7-9 11-7 7-9 11-11 12-9 11-14 17-8 11-13 16-10 13-13 18-20 28-9 13-10 15-11 18-7 10-21 35-12 22-16 29-11 20-4 7 1 5 63 63 4 5 7 6 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 6 7 6 5 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 5 6 8 7 19 19 5 6 7 6 6 7 6 5 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 5 6 8 7 91 91 5 6 7 6 6 7 6 5 7 8 27 27 8 7 8 9 8 7 7 2 14-7 23-13 25-14 20-12 21-13 26-16 15-10 23-16 19-13 19-14 32-24 12-10 14-11 13-11 17-14 12-11 11-9 17-16 16-15 22-22 8-7 12-13 23-23 7-8 11-11 7-8 8-9 7-8 12-14 14-17 11-14 13-16 10-13 11-15 12-16 11-16 10-14 11-17 13-21 5-8 13-22 6-11 15-29 7-12 9-20 11-23 13-30 15-38 17-48 12-39 10-37 14-56 10-48 8-46 8-56 4-34 4-54 2-36 1-26v-96l-1-22-4-18-5-13-5-6-13-5-25-2-27-1zm280 283 1 2zm-1508 269-151 11-31 3-13 3-8 7-9 12-9 13-7 10-13 21-7 10-10 15-14 22-7 10-18 27-9 14-6 9-9 13-14 22-20 30-7 11-12 17-11 17-9 14-7 11-2 5 7 2 36 5 44 7 72 11 58 9 21 4 4-1 4-6 10-27 12-36 9-25 15-36 9-20 9-21 19-39 10-19 8-16 12-22 8-14 12-20 10-16 8-13 13-22 5-8v-4zm-26 342-5 18-9 30-10 35-6 25-8 37-5 23-2 15 1 9 6 10 24 26 322 322h2l2 4h2v2l11 9 9 5 3 1h14l45-9 47-11 37-10 28-9 18-6-1-4-3-4h-2l-2-4-38-38-5-6-413-413-8-7-48-48h-2v-2zm867 487-16 10-17 11-22 13-20 12-28 16-22 12-16 8-17 9-23 11-26 12-17 7-11 5-32 13-30 11-43 14-19 7-4 3 1 9 5 33 9 59 10 65 8 55 3 20 8-1 9-5 10-7 14-9 27-18 19-12 13-9 15-10 43-29 11-7 42-28 20-13 15-10 26-17 15-10 11-8 10-9 4-6 2-12 5-67 9-104 1-24z" />
-                        <path transform="translate(1379,345)" d="m0 0h46l23 2 25 5 25 7 21 8 25 12 20 12 13 9 16 12 13 12 8 7 11 11 18 22 16 24 9 16 8 16 10 25 8 25 6 31 3 25v38l-3 23-6 31-6 21-10 25-7 15-12 22-9 14-10 14-14 17-17 17-11 10-11 9-18 13-21 12-16 8-18 8-34 11-23 5-31 4-13 1h-35l-21-2-26-5-24-7-28-11-20-10-20-12-10-7-13-10-14-12-13-12-14-15-9-11-10-13-12-19-9-16-13-28-10-30-6-26-3-20-2-29 1-29 3-23 6-29 12-35 11-24 11-20 9-14 9-13 7-8 8-10 29-29 13-10 10-8 19-12 20-11 20-9 22-8 23-6 23-4zm3 121-20 3-18 5-21 9-19 11-14 11-12 11-10 10-8 10-11 16-11 21-7 18-4 16-3 19-1 20 1 18 4 22 5 17 7 17 9 17 8 12 11 13 9 10 7 7 13 10 14 9 21 11 16 6 25 6 20 2h23l18-2 22-6 16-6 16-8 14-8 11-8 13-11 12-12 8-10 8-11 10-17 6-15 6-21 4-20 1-25-1-20-4-22-9-27-8-17-10-16-9-12-12-13-12-11-16-11-14-8-19-9-24-7-16-3-10-1z" />
-                        <path transform="translate(429,1551)" d="m0 0h12l15 3 16 8 8 7 9 12 5 12 2 10v16l-2 10-4 9-7 10-9 11-6 7h-2l-2 4-268 268h-2v2h-2v2h-2l-2 4-8 8h-2v2l-5 4-1 2h-2l-2 4h-2v2l-8 7-53 53-20 14-10 6h-33l-14-10-16-15-8-9v-2l-4-2v-46l7-6 9-12 8-8 2-3h2l2-4 6-5 2-3h2v-2h2v-2l8-7 11-12 234-234 3-4h2v-2l8-7 2-3h2l2-4h2v-2l8-7 6-7h2v-2l8-7 7-8 8-7 7-8 9-8 7-8 12-11 9-8 11-7 7-3z" />
-                        <path transform="translate(607,1730)" d="m0 0 17 1 15 4 15 8 7 7 7 10 5 12 2 7v24l-5 13-12 16-11 12-7 8-30 30-5 6-8 7-9 10h-2l-1 3-6 5-7 8-6 5-7 8-12 11-75 75-11 9-11 8-13 9v2h-31l-4-3-10-6-13-10-6-5-6-8-4-11-4-17v-8l2-9 8-18 10-11 7-8 20-20h2l2-4h2l2-4h2l2-4 4-4h2l2-4 49-49 7-8 38-38h2l2-4 8-8h2v-2h2l2-4 22-22 8-7 10-9 13-8 9-4z" />
-                        <path transform="translate(250,1371)" d="m0 0h10l18 4 12 6 10 8 7 9 7 14 3 11 1 13-2 11-8 14-9 12-9 10-4 5-5 4-1 2h-2l-2 4-111 111-6 7-8 7-43 43-13 10-16 8-8 3-16 1-12-3-16-8-12-11-7-9-4-8-4-3v-36l11-16 13-15 7-8h2l2-4 70-70 5-6h2l2-4 36-36h2l2-4h2l2-4h2l2-4h2l2-4h2l2-4h2v-2h2v-2l8-7 30-30 13-10 12-6z" />
-                        <path transform="translate(394,2044)" d="m0 0 5 1 3 3h-8z" />
-                        <path transform="translate(26,2045)" d="m0 0 6 1 1 2h-6z" />
-                        <path transform="translate(1654)" d="m0 0h2l1 3h-7l4-1z" />
-                        <path transform="translate(2047,113)" d="m0 0h1v6l-2-1-1-4z" />
-                        <path transform="translate(11,2031)" d="m0 0 4 2-1 2z" />
-                        <path transform="translate(1067,2046)" d="m0 0 2 2-4-1z" />
-                        <path transform="translate(8,2028)" d="m0 0 3 1-1 2z" />
-                        <path transform="translate(79,2046)" d="m0 0 1 2-3-1z" />
-                        <path transform="translate(0,2046)" d="m0 0 2 2h-2z" />
-                        <path transform="translate(1e3 2046)" d="m0 0" />
-                        <path transform="translate(38,2047)" d="m0 0 2 1z" />
-                        <path transform="translate(395,2042)" d="m0 0 2 1z" />
-                        <path transform="translate(2047,422)" d="m0 0" />
-                        <path transform="translate(1650)" d="m0 0 2 1z" />
-                        <path transform="translate(439,2047)" d="m0 0" />
-                        <path transform="translate(398,2043)" d="m0 0" />
-                        <path transform="translate(16,2035)" d="m0 0" />
-                        <path transform="translate(0,1961)" d="m0 0" />
-                        <path transform="translate(1940)" d="m0 0" />
-                        <path transform="translate(1620)" d="m0 0" />
-                    </svg>
-                </button>
-            </div>
-        )
+        if (isWorkingOnPC) {
+
+            return (
+                <div className=' h600 w800 c-c-c'>
+                    <img className='h300' src="imgs/3333449-removebg-preview.png" alt="" />
+                    <h1 className="logo  mt20">Start creating a new order</h1>
+                    <ul className='mt20 '>
+                        <p>There are 3 simple steps</p>
+                        <li><p className='ml10 mt5'>Step 1 : <strong className='ml10'>  Select your shipping address for the order. </strong></p></li>
+                        <li>
+                            <p className='ml10 mt5'>Step 2 : <strong className='ml10'> Choose payment method </strong></p>
+                        </li>
+                        <li>
+                            <p className='ml10 mt5'>Step 3 : <strong className='ml10'>Specify the quantity of products </strong></p>
+                        </li>
+                        <li>
+                            <p className='ml10 mt5'>And last one is <strong> complete the order</strong></p>
+                        </li>
+                    </ul>
+                    <button onClick={() => dispatch(startCreation())} className='btnStartOrder w400 p10 bg-g  mt20' style={{ color: "#fff" }}>Start
+                        <svg version="1.1" viewBox="0 0 2048 2048" className='ml20' style={{ fill: "#fff" }} xmlns="http://www.w3.org/2000/svg">
+                            <path transform="translate(1663)" d="m0 0h276l-2 1v2l-3 1-9-1 2 2-1 1 22 8 16 8 16 10 14 12 14 14 11 15 9 15 7 15 7 19 4 14 2-1v235l-2 6h2v45l-2-1-1-14-4 1-3 20-8 58-8 48-13 66-7 31-10 42-15 53-14 43-13 36-11 28-22 52-9 20-26 52-10 17-10 18-9 15-14 23-8 12-11 17-10 15-10 14-11 15-12 17-14 19-14 17-8 10-1 2h-2l-2 4-14 17-9 11-13 15-9 10-7 8-11 12-1 2h-2v2h-2v2h-2l-2 4-15 15-7 8-52 52-8 7-8 8-8 7-12 11h-2v2l-11 9-7 7-14 11-11 9-4 9-5 59-6 77-6 68-6 84-4 26-7 25-8 17-12 20-8 10-12 13-20 16-17 12-17 11-33 22-22 14-27 18-20 13-48 32-29 19-15 10-16 11-29 19-21 14-15 9-16 9-21 10-1 1h-61l-1-3h8l-10-6-16-8-11-6-13-11-11-15-11-21-7-24-5-27-9-56-16-104-7-49-3-15-1-2-19 5-5 1h-33l-23-5-25-9-11-6-12-8-13-10-13-12-8-7-108-108v-2l-4-2v-2l-4-2v-2l-3-1-5-6-6-5-6-7-6-5-6-7-6-5-6-7-8-7v-2l-3-1-5-6-4-3v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2-8-8v-2l-4-2-60-60v-2l-4-2v-2l-4-2-8-8v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2-20-20v-2h-2l-7-8-10-11-13-17-9-15-8-16-5-15-5-22-1-7v-22l2-18 2-11-7-3-21-4-42-7-46-7-85-13-38-6-24-5-15-5-15-8-11-8-10-9-9-11-7-11-11-20-3-5v-58l3-3 14-26 8-13 10-16 13-19 10-16 36-54 34-52 10-15 17-26 22-33 13-20 32-48 13-16 12-13 10-9 12-9 16-9 20-8 25-6 24-3 107-8 150-11 20-2 13-4 8-7 8-10 12-14 9-11 7-7 7-8 6-7 5-5 6-7 8-7 11-12 9-9 7-8 16-16 8-7 21-21 8-7 4-2v-2l8-7 10-9 15-13 10-9 11-9 8-7 9-7 11-9 9-7 15-12 17-13 19-14 13-9 14-10 24-16 17-11 19-12 22-13 18-10 29-16 44-22 24-11 28-12 24-10 34-13 46-16 44-13 42-11 48-12 50-10 44-8 61-9 61-8 11-1zm257 4m-160 116-51 2-64 5-50 6-55 8-38 7-51 11-50 13-32 9-41 13-28 10-26 10-32 13-30 13-30 14-19 10-27 14-17 10-19 11-17 11-16 10-14 9-10 7-18 13-19 13-12 9-17 13-8 7-14 11-13 11-11 9-10 9-11 9-10 9-8 7-7 7-8 7-9 9-8 7-44 44-7 8-11 11-7 8-7 7-9 11-7 7-9 11-11 12-9 11-14 17-8 11-13 16-10 13-13 18-20 28-9 13-10 15-11 18-7 10-21 35-12 22-16 29-11 20-4 7 1 5 63 63 4 5 7 6 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 6 7 6 5 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 5 6 8 7 19 19 5 6 7 6 6 7 6 5 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 5 6 8 7 91 91 5 6 7 6 6 7 6 5 7 8 27 27 8 7 8 9 8 7 7 2 14-7 23-13 25-14 20-12 21-13 26-16 15-10 23-16 19-13 19-14 32-24 12-10 14-11 13-11 17-14 12-11 11-9 17-16 16-15 22-22 8-7 12-13 23-23 7-8 11-11 7-8 8-9 7-8 12-14 14-17 11-14 13-16 10-13 11-15 12-16 11-16 10-14 11-17 13-21 5-8 13-22 6-11 15-29 7-12 9-20 11-23 13-30 15-38 17-48 12-39 10-37 14-56 10-48 8-46 8-56 4-34 4-54 2-36 1-26v-96l-1-22-4-18-5-13-5-6-13-5-25-2-27-1zm280 283 1 2zm-1508 269-151 11-31 3-13 3-8 7-9 12-9 13-7 10-13 21-7 10-10 15-14 22-7 10-18 27-9 14-6 9-9 13-14 22-20 30-7 11-12 17-11 17-9 14-7 11-2 5 7 2 36 5 44 7 72 11 58 9 21 4 4-1 4-6 10-27 12-36 9-25 15-36 9-20 9-21 19-39 10-19 8-16 12-22 8-14 12-20 10-16 8-13 13-22 5-8v-4zm-26 342-5 18-9 30-10 35-6 25-8 37-5 23-2 15 1 9 6 10 24 26 322 322h2l2 4h2v2l11 9 9 5 3 1h14l45-9 47-11 37-10 28-9 18-6-1-4-3-4h-2l-2-4-38-38-5-6-413-413-8-7-48-48h-2v-2zm867 487-16 10-17 11-22 13-20 12-28 16-22 12-16 8-17 9-23 11-26 12-17 7-11 5-32 13-30 11-43 14-19 7-4 3 1 9 5 33 9 59 10 65 8 55 3 20 8-1 9-5 10-7 14-9 27-18 19-12 13-9 15-10 43-29 11-7 42-28 20-13 15-10 26-17 15-10 11-8 10-9 4-6 2-12 5-67 9-104 1-24z" />
+                            <path transform="translate(1379,345)" d="m0 0h46l23 2 25 5 25 7 21 8 25 12 20 12 13 9 16 12 13 12 8 7 11 11 18 22 16 24 9 16 8 16 10 25 8 25 6 31 3 25v38l-3 23-6 31-6 21-10 25-7 15-12 22-9 14-10 14-14 17-17 17-11 10-11 9-18 13-21 12-16 8-18 8-34 11-23 5-31 4-13 1h-35l-21-2-26-5-24-7-28-11-20-10-20-12-10-7-13-10-14-12-13-12-14-15-9-11-10-13-12-19-9-16-13-28-10-30-6-26-3-20-2-29 1-29 3-23 6-29 12-35 11-24 11-20 9-14 9-13 7-8 8-10 29-29 13-10 10-8 19-12 20-11 20-9 22-8 23-6 23-4zm3 121-20 3-18 5-21 9-19 11-14 11-12 11-10 10-8 10-11 16-11 21-7 18-4 16-3 19-1 20 1 18 4 22 5 17 7 17 9 17 8 12 11 13 9 10 7 7 13 10 14 9 21 11 16 6 25 6 20 2h23l18-2 22-6 16-6 16-8 14-8 11-8 13-11 12-12 8-10 8-11 10-17 6-15 6-21 4-20 1-25-1-20-4-22-9-27-8-17-10-16-9-12-12-13-12-11-16-11-14-8-19-9-24-7-16-3-10-1z" />
+                            <path transform="translate(429,1551)" d="m0 0h12l15 3 16 8 8 7 9 12 5 12 2 10v16l-2 10-4 9-7 10-9 11-6 7h-2l-2 4-268 268h-2v2h-2v2h-2l-2 4-8 8h-2v2l-5 4-1 2h-2l-2 4h-2v2l-8 7-53 53-20 14-10 6h-33l-14-10-16-15-8-9v-2l-4-2v-46l7-6 9-12 8-8 2-3h2l2-4 6-5 2-3h2v-2h2v-2l8-7 11-12 234-234 3-4h2v-2l8-7 2-3h2l2-4h2v-2l8-7 6-7h2v-2l8-7 7-8 8-7 7-8 9-8 7-8 12-11 9-8 11-7 7-3z" />
+                            <path transform="translate(607,1730)" d="m0 0 17 1 15 4 15 8 7 7 7 10 5 12 2 7v24l-5 13-12 16-11 12-7 8-30 30-5 6-8 7-9 10h-2l-1 3-6 5-7 8-6 5-7 8-12 11-75 75-11 9-11 8-13 9v2h-31l-4-3-10-6-13-10-6-5-6-8-4-11-4-17v-8l2-9 8-18 10-11 7-8 20-20h2l2-4h2l2-4h2l2-4 4-4h2l2-4 49-49 7-8 38-38h2l2-4 8-8h2v-2h2l2-4 22-22 8-7 10-9 13-8 9-4z" />
+                            <path transform="translate(250,1371)" d="m0 0h10l18 4 12 6 10 8 7 9 7 14 3 11 1 13-2 11-8 14-9 12-9 10-4 5-5 4-1 2h-2l-2 4-111 111-6 7-8 7-43 43-13 10-16 8-8 3-16 1-12-3-16-8-12-11-7-9-4-8-4-3v-36l11-16 13-15 7-8h2l2-4 70-70 5-6h2l2-4 36-36h2l2-4h2l2-4h2l2-4h2l2-4h2l2-4h2v-2h2v-2l8-7 30-30 13-10 12-6z" />
+                            <path transform="translate(394,2044)" d="m0 0 5 1 3 3h-8z" />
+                            <path transform="translate(26,2045)" d="m0 0 6 1 1 2h-6z" />
+                            <path transform="translate(1654)" d="m0 0h2l1 3h-7l4-1z" />
+                            <path transform="translate(2047,113)" d="m0 0h1v6l-2-1-1-4z" />
+                            <path transform="translate(11,2031)" d="m0 0 4 2-1 2z" />
+                            <path transform="translate(1067,2046)" d="m0 0 2 2-4-1z" />
+                            <path transform="translate(8,2028)" d="m0 0 3 1-1 2z" />
+                            <path transform="translate(79,2046)" d="m0 0 1 2-3-1z" />
+                            <path transform="translate(0,2046)" d="m0 0 2 2h-2z" />
+                            <path transform="translate(1e3 2046)" d="m0 0" />
+                            <path transform="translate(38,2047)" d="m0 0 2 1z" />
+                            <path transform="translate(395,2042)" d="m0 0 2 1z" />
+                            <path transform="translate(2047,422)" d="m0 0" />
+                            <path transform="translate(1650)" d="m0 0 2 1z" />
+                            <path transform="translate(439,2047)" d="m0 0" />
+                            <path transform="translate(398,2043)" d="m0 0" />
+                            <path transform="translate(16,2035)" d="m0 0" />
+                            <path transform="translate(0,1961)" d="m0 0" />
+                            <path transform="translate(1940)" d="m0 0" />
+                            <path transform="translate(1620)" d="m0 0" />
+                        </svg>
+                    </button>
+                </div>
+            )
+        } else {
+            return (
+                <div className=' h600 wmia c-c-c'>
+                    <img className='wmia' src="imgs/3333449-removebg-preview.png" alt="" />
+                    <h1 className="logo  mt20">Start creating a new order</h1>
+                    <ul className='mt20 '>
+                        <p>There are 3 simple steps</p>
+                        <li><p className='ml10 mt5'>Step 1 : <strong className='ml10'>  Select your shipping address for the order. </strong></p></li>
+                        <li>
+                            <p className='ml10 mt5'>Step 2 : <strong className='ml10'> Choose payment method </strong></p>
+                        </li>
+                        <li>
+                            <p className='ml10 mt5'>Step 3 : <strong className='ml10'>Specify the quantity of products </strong></p>
+                        </li>
+                        <li>
+                            <p className='ml10 mt5'>And last one is <strong> complete the order</strong></p>
+                        </li>
+                    </ul>
+                    <button onClick={() => dispatch(startCreation())} className='btnStartOrder w400 p10 bg-g  mt20' style={{ color: "#fff" }}>Start
+                        <svg version="1.1" viewBox="0 0 2048 2048" className='ml20' style={{ fill: "#fff" }} xmlns="http://www.w3.org/2000/svg">
+                            <path transform="translate(1663)" d="m0 0h276l-2 1v2l-3 1-9-1 2 2-1 1 22 8 16 8 16 10 14 12 14 14 11 15 9 15 7 15 7 19 4 14 2-1v235l-2 6h2v45l-2-1-1-14-4 1-3 20-8 58-8 48-13 66-7 31-10 42-15 53-14 43-13 36-11 28-22 52-9 20-26 52-10 17-10 18-9 15-14 23-8 12-11 17-10 15-10 14-11 15-12 17-14 19-14 17-8 10-1 2h-2l-2 4-14 17-9 11-13 15-9 10-7 8-11 12-1 2h-2v2h-2v2h-2l-2 4-15 15-7 8-52 52-8 7-8 8-8 7-12 11h-2v2l-11 9-7 7-14 11-11 9-4 9-5 59-6 77-6 68-6 84-4 26-7 25-8 17-12 20-8 10-12 13-20 16-17 12-17 11-33 22-22 14-27 18-20 13-48 32-29 19-15 10-16 11-29 19-21 14-15 9-16 9-21 10-1 1h-61l-1-3h8l-10-6-16-8-11-6-13-11-11-15-11-21-7-24-5-27-9-56-16-104-7-49-3-15-1-2-19 5-5 1h-33l-23-5-25-9-11-6-12-8-13-10-13-12-8-7-108-108v-2l-4-2v-2l-4-2v-2l-3-1-5-6-6-5-6-7-6-5-6-7-6-5-6-7-8-7v-2l-3-1-5-6-4-3v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2-8-8v-2l-4-2-60-60v-2l-4-2v-2l-4-2-8-8v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2v-2l-4-2-20-20v-2h-2l-7-8-10-11-13-17-9-15-8-16-5-15-5-22-1-7v-22l2-18 2-11-7-3-21-4-42-7-46-7-85-13-38-6-24-5-15-5-15-8-11-8-10-9-9-11-7-11-11-20-3-5v-58l3-3 14-26 8-13 10-16 13-19 10-16 36-54 34-52 10-15 17-26 22-33 13-20 32-48 13-16 12-13 10-9 12-9 16-9 20-8 25-6 24-3 107-8 150-11 20-2 13-4 8-7 8-10 12-14 9-11 7-7 7-8 6-7 5-5 6-7 8-7 11-12 9-9 7-8 16-16 8-7 21-21 8-7 4-2v-2l8-7 10-9 15-13 10-9 11-9 8-7 9-7 11-9 9-7 15-12 17-13 19-14 13-9 14-10 24-16 17-11 19-12 22-13 18-10 29-16 44-22 24-11 28-12 24-10 34-13 46-16 44-13 42-11 48-12 50-10 44-8 61-9 61-8 11-1zm257 4m-160 116-51 2-64 5-50 6-55 8-38 7-51 11-50 13-32 9-41 13-28 10-26 10-32 13-30 13-30 14-19 10-27 14-17 10-19 11-17 11-16 10-14 9-10 7-18 13-19 13-12 9-17 13-8 7-14 11-13 11-11 9-10 9-11 9-10 9-8 7-7 7-8 7-9 9-8 7-44 44-7 8-11 11-7 8-7 7-9 11-7 7-9 11-11 12-9 11-14 17-8 11-13 16-10 13-13 18-20 28-9 13-10 15-11 18-7 10-21 35-12 22-16 29-11 20-4 7 1 5 63 63 4 5 7 6 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 6 7 6 5 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 5 6 8 7 19 19 5 6 7 6 6 7 6 5 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 6 7 6 5 6 7 6 5 5 6 7 6 5 6 7 6 5 6 8 7 91 91 5 6 7 6 6 7 6 5 7 8 27 27 8 7 8 9 8 7 7 2 14-7 23-13 25-14 20-12 21-13 26-16 15-10 23-16 19-13 19-14 32-24 12-10 14-11 13-11 17-14 12-11 11-9 17-16 16-15 22-22 8-7 12-13 23-23 7-8 11-11 7-8 8-9 7-8 12-14 14-17 11-14 13-16 10-13 11-15 12-16 11-16 10-14 11-17 13-21 5-8 13-22 6-11 15-29 7-12 9-20 11-23 13-30 15-38 17-48 12-39 10-37 14-56 10-48 8-46 8-56 4-34 4-54 2-36 1-26v-96l-1-22-4-18-5-13-5-6-13-5-25-2-27-1zm280 283 1 2zm-1508 269-151 11-31 3-13 3-8 7-9 12-9 13-7 10-13 21-7 10-10 15-14 22-7 10-18 27-9 14-6 9-9 13-14 22-20 30-7 11-12 17-11 17-9 14-7 11-2 5 7 2 36 5 44 7 72 11 58 9 21 4 4-1 4-6 10-27 12-36 9-25 15-36 9-20 9-21 19-39 10-19 8-16 12-22 8-14 12-20 10-16 8-13 13-22 5-8v-4zm-26 342-5 18-9 30-10 35-6 25-8 37-5 23-2 15 1 9 6 10 24 26 322 322h2l2 4h2v2l11 9 9 5 3 1h14l45-9 47-11 37-10 28-9 18-6-1-4-3-4h-2l-2-4-38-38-5-6-413-413-8-7-48-48h-2v-2zm867 487-16 10-17 11-22 13-20 12-28 16-22 12-16 8-17 9-23 11-26 12-17 7-11 5-32 13-30 11-43 14-19 7-4 3 1 9 5 33 9 59 10 65 8 55 3 20 8-1 9-5 10-7 14-9 27-18 19-12 13-9 15-10 43-29 11-7 42-28 20-13 15-10 26-17 15-10 11-8 10-9 4-6 2-12 5-67 9-104 1-24z" />
+                            <path transform="translate(1379,345)" d="m0 0h46l23 2 25 5 25 7 21 8 25 12 20 12 13 9 16 12 13 12 8 7 11 11 18 22 16 24 9 16 8 16 10 25 8 25 6 31 3 25v38l-3 23-6 31-6 21-10 25-7 15-12 22-9 14-10 14-14 17-17 17-11 10-11 9-18 13-21 12-16 8-18 8-34 11-23 5-31 4-13 1h-35l-21-2-26-5-24-7-28-11-20-10-20-12-10-7-13-10-14-12-13-12-14-15-9-11-10-13-12-19-9-16-13-28-10-30-6-26-3-20-2-29 1-29 3-23 6-29 12-35 11-24 11-20 9-14 9-13 7-8 8-10 29-29 13-10 10-8 19-12 20-11 20-9 22-8 23-6 23-4zm3 121-20 3-18 5-21 9-19 11-14 11-12 11-10 10-8 10-11 16-11 21-7 18-4 16-3 19-1 20 1 18 4 22 5 17 7 17 9 17 8 12 11 13 9 10 7 7 13 10 14 9 21 11 16 6 25 6 20 2h23l18-2 22-6 16-6 16-8 14-8 11-8 13-11 12-12 8-10 8-11 10-17 6-15 6-21 4-20 1-25-1-20-4-22-9-27-8-17-10-16-9-12-12-13-12-11-16-11-14-8-19-9-24-7-16-3-10-1z" />
+                            <path transform="translate(429,1551)" d="m0 0h12l15 3 16 8 8 7 9 12 5 12 2 10v16l-2 10-4 9-7 10-9 11-6 7h-2l-2 4-268 268h-2v2h-2v2h-2l-2 4-8 8h-2v2l-5 4-1 2h-2l-2 4h-2v2l-8 7-53 53-20 14-10 6h-33l-14-10-16-15-8-9v-2l-4-2v-46l7-6 9-12 8-8 2-3h2l2-4 6-5 2-3h2v-2h2v-2l8-7 11-12 234-234 3-4h2v-2l8-7 2-3h2l2-4h2v-2l8-7 6-7h2v-2l8-7 7-8 8-7 7-8 9-8 7-8 12-11 9-8 11-7 7-3z" />
+                            <path transform="translate(607,1730)" d="m0 0 17 1 15 4 15 8 7 7 7 10 5 12 2 7v24l-5 13-12 16-11 12-7 8-30 30-5 6-8 7-9 10h-2l-1 3-6 5-7 8-6 5-7 8-12 11-75 75-11 9-11 8-13 9v2h-31l-4-3-10-6-13-10-6-5-6-8-4-11-4-17v-8l2-9 8-18 10-11 7-8 20-20h2l2-4h2l2-4h2l2-4 4-4h2l2-4 49-49 7-8 38-38h2l2-4 8-8h2v-2h2l2-4 22-22 8-7 10-9 13-8 9-4z" />
+                            <path transform="translate(250,1371)" d="m0 0h10l18 4 12 6 10 8 7 9 7 14 3 11 1 13-2 11-8 14-9 12-9 10-4 5-5 4-1 2h-2l-2 4-111 111-6 7-8 7-43 43-13 10-16 8-8 3-16 1-12-3-16-8-12-11-7-9-4-8-4-3v-36l11-16 13-15 7-8h2l2-4 70-70 5-6h2l2-4 36-36h2l2-4h2l2-4h2l2-4h2l2-4h2l2-4h2v-2h2v-2l8-7 30-30 13-10 12-6z" />
+                            <path transform="translate(394,2044)" d="m0 0 5 1 3 3h-8z" />
+                            <path transform="translate(26,2045)" d="m0 0 6 1 1 2h-6z" />
+                            <path transform="translate(1654)" d="m0 0h2l1 3h-7l4-1z" />
+                            <path transform="translate(2047,113)" d="m0 0h1v6l-2-1-1-4z" />
+                            <path transform="translate(11,2031)" d="m0 0 4 2-1 2z" />
+                            <path transform="translate(1067,2046)" d="m0 0 2 2-4-1z" />
+                            <path transform="translate(8,2028)" d="m0 0 3 1-1 2z" />
+                            <path transform="translate(79,2046)" d="m0 0 1 2-3-1z" />
+                            <path transform="translate(0,2046)" d="m0 0 2 2h-2z" />
+                            <path transform="translate(1e3 2046)" d="m0 0" />
+                            <path transform="translate(38,2047)" d="m0 0 2 1z" />
+                            <path transform="translate(395,2042)" d="m0 0 2 1z" />
+                            <path transform="translate(2047,422)" d="m0 0" />
+                            <path transform="translate(1650)" d="m0 0 2 1z" />
+                            <path transform="translate(439,2047)" d="m0 0" />
+                            <path transform="translate(398,2043)" d="m0 0" />
+                            <path transform="translate(16,2035)" d="m0 0" />
+                            <path transform="translate(0,1961)" d="m0 0" />
+                            <path transform="translate(1940)" d="m0 0" />
+                            <path transform="translate(1620)" d="m0 0" />
+                        </svg>
+                    </button>
+                </div>
+            )
+        }
     }
+    if (NewOrderData.products.length == 0) {
+        useEffect(() => {
+            navigate(-1);
+
+        }, [])
+        return;
+    }
+
+    const goToPaymentMethod = () => {
+        if (isWorkingOnPC) {
+            dispatch(ShowAddPaymenthMethod())
+        } else {
+            navigate("/add_payment_method")
+        }
+    }
+
 
     const CreateOrderSt1 = useMemo(() =>
         () => {
@@ -450,49 +522,96 @@ export const CreateAnOrderCmp = () => {
             const handelDoneStepOne = () => {
                 dispatch(passTo2Step());
             }
+            if (isWorkingOnPC) {
 
-            return (
-                <div className="c-s-s  p10 wmia">
-                    <span className="wmia r-b-c">
-                        <p className='ml10'>Step 1 : <strong className='ml10'>  Select your shipping address for this order. </strong></p>
-                        <BTN_OPEN_ADDRESS className={"w200  bl p10 br20"} />
-                    </span>
-                    <div className="cntListAddress orderStepsCm  mt20 h400 c-s-s wmia p20" style={{ overflow: "auto" }} >
-                        {
-                            isLoadingAddress ? <GoodLoader /> :
-                                haveAnAddress ? <>
-                                    {
-                                        listOfAddress.map(adr =>
-                                            <div onClick={() => handelChoosAddress(adr)} className={adr.choosed ? "wmia ChoseededAddressStyle p10 p20 r-b-c c-b bg-third mb20 br20 " : "wmia  mb20 p10 p20 r-b-c bg-third br20 "} key={adr.id}>
-                                                <span className='r-s-c'>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className='mr10' viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z" /></svg>
-                                                    <p>{adr.phone} , {adr.houseApparNum} , {adr.street} {adr.city} , {adr.zip}</p>
-                                                </span>
-                                                {
-                                                    adr.choosed ?
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" /></svg>
-                                                        : null
-                                                }
+                return (
+                    <div className="c-s-s  p10 wmia">
+                        <span className="wmia r-b-c">
+                            <p className='ml10'>Step 1 : <strong className='ml10'>  Select your shipping address for this order. </strong></p>
+                            <BTN_OPEN_ADDRESS className={"w200  bl p10 br20"} />
+                        </span>
+                        <div className="cntListAddress orderStepsCm  mt20 h400 c-s-s wmia p20" style={{ overflow: "auto" }} >
+                            {
+                                isLoadingAddress ? <GoodLoader /> :
+                                    haveAnAddress ? <>
+                                        {
+                                            listOfAddress.map(adr =>
+                                                <div onClick={() => handelChoosAddress(adr)} className={adr.choosed ? "wmia ChoseededAddressStyle p10 p20 r-b-c c-b bg-third mb20 br20 " : "wmia  mb20 p10 p20 r-b-c bg-third br20 "} key={adr.id}>
+                                                    <span className='r-s-c'>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className='mr10' viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z" /></svg>
+                                                        <p>{adr.phone} , {adr.houseApparNum} , {adr.street} {adr.city} , {adr.zip}</p>
+                                                    </span>
+                                                    {
+                                                        adr.choosed ?
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" /></svg>
+                                                            : null
+                                                    }
+                                                </div>
+                                            )
+                                        }
+                                    </> :
+                                        <>
+                                            <div className='wmia c-c-c mt50'>
+                                                <h1 className="logo" style={{ textAlign: "center" }}>You have not provided any address yet, please add an address to complete the process.</h1>
+                                                <BTN_OPEN_ADDRESS className={"w200 mt20 bl p10 br20"} />
+
                                             </div>
-                                        )
-                                    }
-                                </> :
-                                    <>
-                                        <div className='wmia c-c-c mt50'>
-                                            <h1 className="logo" style={{ textAlign: "center" }}>You have not provided any address yet, please add an address to complete the process.</h1>
-                                            <BTN_OPEN_ADDRESS className={"w200 mt20 bl p10 br20"} />
+                                        </>
+                            }
+                        </div>
+                        {haveAnAddress && <>
+                            <button className='bl mt20 p10 w200 br20' onClick={handelDoneStepOne} style={{ alignSelf: "end" }}>Use this address<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
+                        </>}
 
-                                        </div>
-                                    </>
-                        }
+
                     </div>
-                    {haveAnAddress && <>
-                        <button className='bl mt20 p10 w200 br20' onClick={handelDoneStepOne} style={{ alignSelf: "end" }}>Use this address<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
-                    </>}
+                )
+            } else {
+                return (
+                    <div className="c-s-s  p50 wmia">
+                        <span className="wmia r-b-c">
+                            <p className='ml10'>Step 1 : <strong className='ml10'>  Select your shipping address for this order. </strong></p>
+                        </span>
+                        <div className="cntListAddress h400 orderStepsCm  mt20  c-s-s wmia " style={{ overflow: "auto" }} >
+                            {
+                                isLoadingAddress ? <GoodLoader /> :
+                                    haveAnAddress ? <>
+                                        {
+                                            listOfAddress.map(adr =>
+                                                <div onClick={() => handelChoosAddress(adr)} className={adr.choosed ? "wmia ChoseededAddressStyle  p10 p20 r-b-c c-b bg-third mb20 br20 " : "wmia  mb20 p10 p20 r-b-c bg-third br20 "} key={adr.id}>
+                                                    <span className='r-s-c'>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className='mr10' viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z" /></svg>
+                                                        <p>{adr.phone} , {adr.houseApparNum} , {adr.street} {adr.city} , {adr.zip}</p>
+                                                    </span>
+                                                    {
+                                                        adr.choosed ?
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" /></svg>
+                                                            : null
+                                                    }
+                                                </div>
+                                            )
+                                        }
+
+                                    </> :
+                                        <>
+                                            <div className='wmia c-c-c mt50'>
+                                                <h1 className="logo" style={{ textAlign: "center" }}>You have not provided any address yet, please add an address to complete the process.</h1>
+                                                <BTN_OPEN_ADDRESS className={"w200 mt20 bl p10 br20"} />
+
+                                            </div>
+                                        </>
+                            }
+
+                        </div>
+                        {haveAnAddress && <>
+                            <BTN_OPEN_ADDRESS className={"wmia mt50 cl  p10 br20"} />
+                            <button className='bl mt20 p10 w200 br20' onClick={handelDoneStepOne} style={{ alignSelf: "end" }}>Use this address<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
+                        </>}
 
 
-                </div>
-            )
+                    </div>
+                )
+            }
 
         }
         , [])
@@ -528,56 +647,103 @@ export const CreateAnOrderCmp = () => {
                 delete adr['choosed']
                 dispatch(setUsedPaymentMethod(adr))
             }
-
             const handelDoneStep2 = () => {
                 dispatch(passTo3Step());
             }
+            if (isWorkingOnPC) {
 
-            return (
-                <div className="c-s-s w600  p10 wmia">
-                    <span className="wmia r-b-c">
-                        <p className='ml10'>Step 2 : <strong className='ml10'> Choose payment method </strong></p>
-                        <button className={"w300  bl p10 br20"} onClick={() => dispatch(ShowAddPaymenthMethod())}>Add new payment method <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v240H160v240h400v80H160Zm0-480h640v-80H160v80ZM760-80v-120H640v-80h120v-120h80v120h120v80H840v120h-80ZM160-240v-480 480Z" /></svg> </button>
-                    </span>
-                    <div className="cntListAddress orderStepsCm mt20 h400 c-s-s wmia p20" style={{ overflow: "auto" }} >
+                return (
+                    <div className="c-s-s w600  p10 wmia">
+                        <span className="wmia r-b-c">
+                            <p className='ml10'>Step 2 : <strong className='ml10'> Choose payment method </strong></p>
+                            <button className={"w300  bl p10 br20"} onClick={() => dispatch(ShowAddPaymenthMethod())}>Add new payment method <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v240H160v240h400v80H160Zm0-480h640v-80H160v80ZM760-80v-120H640v-80h120v-120h80v120h120v80H840v120h-80ZM160-240v-480 480Z" /></svg> </button>
+                        </span>
+                        <div className="cntListAddress orderStepsCm mt20 h400 c-s-s wmia p20" style={{ overflow: "auto" }} >
+                            {
+                                isLodingPay ? <GoodLoader /> :
+                                    havePaymenthMethod ? <>
+                                        {
+                                            ListPaymentMethods.map(p =>
+                                                <div onClick={() => handelChoosAddress(p)} className={p.choosed ? "wmia ChoseededAddressStyle p10 p20 r-b-c c-b bg-third mb20 br20 " : "wmia  mb20 p10 p20 r-b-c bg-third br20 "} key={p.id}>
+                                                    <span className='r-s-c'>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M880-720v480q0 33-23.5 56.5T800-160H160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720Zm-720 80h640v-80H160v80Zm0 160v240h640v-240H160Zm0 240v-480 480Z" /></svg>
+                                                        <img className="w40 ml20" src={getrealImg(p?.cardType)} alt="" />
+                                                        <div className="c-s-s ml20">
+                                                            <h1 className="cardNumbreele">
+                                                                {p && Khazl(p.CardNumber)}
+                                                            </h1>
+                                                            < p >{p?.CardholderName}</p>
+                                                        </div>
+                                                        <h2 className='ml20'>{p?.ExpiryDate}</h2>
+                                                    </span>
+                                                    {
+                                                        p.choosed ?
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" /></svg>
+                                                            : null
+                                                    }
+                                                </div>
+                                            )
+                                        }
+                                    </> : <div className='wmia c-c-c mt50'>
+                                        <h1 className="logo" style={{ textAlign: "center" }}>You have not provided any payment method yet, please add a payment method to complete the process.</h1>
+                                        <button className={"w300 mt20 bl p10 br20"} onClick={() => dispatch(ShowAddPaymenthMethod())}>Add a payment method <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v240H160v240h400v80H160Zm0-480h640v-80H160v80ZM760-80v-120H640v-80h120v-120h80v120h120v80H840v120h-80ZM160-240v-480 480Z" /></svg> </button>
+                                    </div>
+                            }
+                        </div>
                         {
-                            isLodingPay ? <GoodLoader /> :
-                                havePaymenthMethod ? <>
-                                    {
-                                        ListPaymentMethods.map(p =>
-                                            <div onClick={() => handelChoosAddress(p)} className={p.choosed ? "wmia ChoseededAddressStyle p10 p20 r-b-c c-b bg-third mb20 br20 " : "wmia  mb20 p10 p20 r-b-c bg-third br20 "} key={p.id}>
-                                                <span className='r-s-c'>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M880-720v480q0 33-23.5 56.5T800-160H160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720Zm-720 80h640v-80H160v80Zm0 160v240h640v-240H160Zm0 240v-480 480Z" /></svg>
-                                                    <img className="w40 ml20" src={getrealImg(p?.cardType)} alt="" />
-                                                    <div className="c-s-s ml20">
-                                                        <h1 className="cardNumbreele">
-                                                            {p && Khazl(p.CardNumber)}
-                                                        </h1>
-                                                        < p >{p?.CardholderName}</p>
-                                                    </div>
-                                                    <h2 className='ml20'>{p?.ExpiryDate}</h2>
-                                                </span>
-                                                {
-                                                    p.choosed ?
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" /></svg>
-                                                        : null
-                                                }
-                                            </div>
-                                        )
-                                    }
-                                </> : <div className='wmia c-c-c mt50'>
-                                    <h1 className="logo" style={{ textAlign: "center" }}>You have not provided any payment method yet, please add a payment method to complete the process.</h1>
-                                    <button className={"w300 mt20 bl p10 br20"} onClick={() => dispatch(ShowAddPaymenthMethod())}>Add a payment method <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v240H160v240h400v80H160Zm0-480h640v-80H160v80ZM760-80v-120H640v-80h120v-120h80v120h120v80H840v120h-80ZM160-240v-480 480Z" /></svg> </button>
-                                </div>
-                        }
-                    </div>
-                    {
-                        havePaymenthMethod && <>
-                            <button className='bl p10 mt20  br20' style={{ alignSelf: "end" }} onClick={handelDoneStep2}>Use this payment method<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
-                        </>}
-                    <button className='cr   mt10' onClick={() => dispatch(backToStep1())}><svg xmlns="http://www.w3.org/2000/svg" style={{ transform: "rotate(180deg)" }} viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg>back</button>
-                </div >
-            )
+                            havePaymenthMethod && <>
+                                <button className='bl p10 mt20  br20' style={{ alignSelf: "end" }} onClick={handelDoneStep2}>Use this payment method<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
+                            </>}
+                        <button className='cr   mt10' onClick={() => dispatch(backToStep1())}><svg xmlns="http://www.w3.org/2000/svg" style={{ transform: "rotate(180deg)" }} viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg>back</button>
+                    </div >
+                )
+            } else {
+                return (
+                    <div className="c-s-s wmia  p5 wmia">
+                        <span className="wmia r-b-c">
+                            <p className='ml10'>Step 2 : <strong className='ml10'> Choose payment method </strong></p>
+                        </span>
+                        <div className="cntListAddress orderStepsCm mt20 h400 c-s-s wmia p0" style={{ overflow: "auto" }} >
+                            {
+                                isLodingPay ? <GoodLoader /> :
+                                    havePaymenthMethod ? <>
+                                        {
+                                            ListPaymentMethods.map(p =>
+                                                <div onClick={() => handelChoosAddress(p)} className={p.choosed ? "wmia ChoseededAddressStyle  p20 r-b-c c-b bg-third mb20 br20 " : "wmia  mb20 p10 p20 r-b-c bg-third br20 "} key={p.id}>
+                                                    <span className='r-s-c'>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M880-720v480q0 33-23.5 56.5T800-160H160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720Zm-720 80h640v-80H160v80Zm0 160v240h640v-240H160Zm0 240v-480 480Z" /></svg>
+                                                        <img className="w40 ml20" src={getrealImg(p?.cardType)} alt="" />
+                                                        <div className="c-s-s ml20">
+                                                            <h1 className="cardNumbreele">
+                                                                {p && Khazl(p.CardNumber)}
+                                                            </h1>
+                                                            < p >{p?.CardholderName}</p>
+                                                        </div>
+                                                        <h2 className='ml20'>{p?.ExpiryDate}</h2>
+                                                    </span>
+                                                    {
+                                                        p.choosed ?
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" /></svg>
+                                                            : null
+                                                    }
+                                                </div>
+                                            )
+                                        }
+                                    </> : <div className='wmia c-c-c mt50'>
+                                        <h1 className="logo" style={{ textAlign: "center" }}>You have not provided any payment method yet, please add a payment method to complete the process.</h1>
+                                        <button className={"w300 mt20 bl p10 br20"} onClick={() => goToPaymentMethod()}>Add a payment method <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v240H160v240h400v80H160Zm0-480h640v-80H160v80ZM760-80v-120H640v-80h120v-120h80v120h120v80H840v120h-80ZM160-240v-480 480Z" /></svg> </button>
+                                    </div>
+                            }
+                        </div>
+                        {
+                            havePaymenthMethod && <>
+                                <button className={"wmia  cl p10 br20"} onClick={() => goToPaymentMethod()}>Add new payment method <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v240H160v240h400v80H160Zm0-480h640v-80H160v80ZM760-80v-120H640v-80h120v-120h80v120h120v80H840v120h-80ZM160-240v-480 480Z" /></svg> </button>
+                                <button className='bl p10 mt20  br20' style={{ alignSelf: "end" }} onClick={handelDoneStep2}>Use this payment method<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
+                            </>}
+                        <button className='cr   mt10' onClick={() => dispatch(backToStep1())}><svg xmlns="http://www.w3.org/2000/svg" style={{ transform: "rotate(180deg)" }} viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg>back</button>
+                    </div >
+                )
+            }
 
 
         }
@@ -671,86 +837,172 @@ export const CreateAnOrderCmp = () => {
                     </div>
                     , document.getElementById("portlas"))
             }
+            if (isWorkingOnPC) {
 
-            return (
-                <div className="c-s-s  p10 w1000">
-                    {MoreProdsVSBL && <GetMoreProds />}
+                return (
+                    <div className="c-s-s  p10 w1000">
+                        {MoreProdsVSBL && <GetMoreProds />}
 
-                    <span className="wmia r-b-c">
-                        <p className='ml10'>Step 3 : <strong className='ml10'>Specify the quantity of products </strong></p>
-                        <button className={"w300  bl p10 br20"} onClick={() => { setMoreProdsVSBL(true) }}>Add more products
-                            <svg version="1.1" viewBox="0 0 1024 1024" width="256" height="256" xmlns="http://www.w3.org/2000/svg">
-                                <path transform="translate(431)" d="m0 0h7l9 6 18 10 24 14 52 30 24 14 28 16 52 30 24 14 28 16 24 14 28 16 24 14 28 16 24 14 21 12 22 13 2 3 1 336 21 8 23 12 18 12 11 9 10 9 6 5 7 8 12 14 9 13 9 15 8 16 7 17 8 28 2 10h2v67l-2 5-4 18-6 21-6 15-9 19-10 16-8 11-9 11-12 13-4 4h-2v2h-2v2l-14 11-16 11-17 10-20 9-21 7-26 6-8 2h-62v-2l-27-6-21-7-27-13-16-10-17-13-15-14-11-11-11-14-14-21-3-5-5 2-18 10-24 14-28 16-26 15-24 14-23 13-13 8-7 4-4-1-25-14-17-10-21-12-26-15-24-14-26-15-21-12-26-15-24-14-52-30-21-12-24-14-104-60-21-12v-504l10-6 24-14 130-75 17-10 28-16 26-15 24-14 14-8 24-14 28-16 24-14 28-16 24-14 23-13 5-3h2zm3 70-11 6-28 16-24 14-21 12-24 14-14 8-24 14-23 13-24 14-26 15-28 16-27 16-25 14-27 16-14 8-2 3 21 12 24 14 52 30 24 14 28 16 24 14 21 12 17 10 28 16 78 45 24 14h3l23-13 24-14 104-60 24-14 21-12 24-14 28-16 24-14 23-13 24-14 22-13v-2l-24-14-208-120-24-14-28-16-24-14-21-12-10-6zm-373 251-1 59v338l21 12 24 14 14 8 24 14 42 24 24 14 14 8 24 14 21 12 24 14 28 16 26 15 28 16 17 10 10 6h3v-395l-5-4-97-56-24-14-28-16-24-14-52-30-28-16-24-14-52-30zm747 0-28 16-104 60-24 14-28 16-17 10-49 28-24 14-52 30-15 9-2 2v395l5-1 24-14 43-25 28-16 16-9 1-5-3-18-1-10v-30l3-25 5-22 7-21 14-29 12-19 13-16 11-12 10-10 17-13 10-7 17-10 19-9 27-9 25-5 19-2 21-1 1-8v-248zm-19 317-22 3-21 6-17 7-14 8-17 12-16 15-11 13-7 10-9 16-9 21-6 24-2 18v19l3 24 6 21 9 21 11 18 11 14 17 17 18 13 16 9 11 5 18 6 20 4 9 1h28l20-3 18-5 19-8 18-10 12-9 14-12 10-11v-2h2l10-14 8-14 8-19 6-21 3-20v-29l-3-20-5-18-8-19-10-18-12-16-19-19-18-13-16-9-19-8-19-5-21-3z" />
-                                <path transform="translate(770,705)" d="m0 0h61v65h64l2 2v57l-1 2h-65v65l-36 1h-22l-3-1v-65h-65v-61h65z" />
-                                <path transform="translate(1023,832)" d="m0 0" />
-                            </svg>
-                        </button>
-                    </span>
-                    <div className="cntListProds2  mt20  c-s-s wmia" style={{ overflow: "auto" }} >
+                        <span className="wmia r-b-c">
+                            <p className='ml10'>Step 3 : <strong className='ml10'>Specify the quantity of products </strong></p>
+                            <button className={"w300  bl p10 br20"} onClick={() => { setMoreProdsVSBL(true) }}>Add more products
+                                <svg version="1.1" viewBox="0 0 1024 1024" width="256" height="256" xmlns="http://www.w3.org/2000/svg">
+                                    <path transform="translate(431)" d="m0 0h7l9 6 18 10 24 14 52 30 24 14 28 16 52 30 24 14 28 16 24 14 28 16 24 14 28 16 24 14 21 12 22 13 2 3 1 336 21 8 23 12 18 12 11 9 10 9 6 5 7 8 12 14 9 13 9 15 8 16 7 17 8 28 2 10h2v67l-2 5-4 18-6 21-6 15-9 19-10 16-8 11-9 11-12 13-4 4h-2v2h-2v2l-14 11-16 11-17 10-20 9-21 7-26 6-8 2h-62v-2l-27-6-21-7-27-13-16-10-17-13-15-14-11-11-11-14-14-21-3-5-5 2-18 10-24 14-28 16-26 15-24 14-23 13-13 8-7 4-4-1-25-14-17-10-21-12-26-15-24-14-26-15-21-12-26-15-24-14-52-30-21-12-24-14-104-60-21-12v-504l10-6 24-14 130-75 17-10 28-16 26-15 24-14 14-8 24-14 28-16 24-14 28-16 24-14 23-13 5-3h2zm3 70-11 6-28 16-24 14-21 12-24 14-14 8-24 14-23 13-24 14-26 15-28 16-27 16-25 14-27 16-14 8-2 3 21 12 24 14 52 30 24 14 28 16 24 14 21 12 17 10 28 16 78 45 24 14h3l23-13 24-14 104-60 24-14 21-12 24-14 28-16 24-14 23-13 24-14 22-13v-2l-24-14-208-120-24-14-28-16-24-14-21-12-10-6zm-373 251-1 59v338l21 12 24 14 14 8 24 14 42 24 24 14 14 8 24 14 21 12 24 14 28 16 26 15 28 16 17 10 10 6h3v-395l-5-4-97-56-24-14-28-16-24-14-52-30-28-16-24-14-52-30zm747 0-28 16-104 60-24 14-28 16-17 10-49 28-24 14-52 30-15 9-2 2v395l5-1 24-14 43-25 28-16 16-9 1-5-3-18-1-10v-30l3-25 5-22 7-21 14-29 12-19 13-16 11-12 10-10 17-13 10-7 17-10 19-9 27-9 25-5 19-2 21-1 1-8v-248zm-19 317-22 3-21 6-17 7-14 8-17 12-16 15-11 13-7 10-9 16-9 21-6 24-2 18v19l3 24 6 21 9 21 11 18 11 14 17 17 18 13 16 9 11 5 18 6 20 4 9 1h28l20-3 18-5 19-8 18-10 12-9 14-12 10-11v-2h2l10-14 8-14 8-19 6-21 3-20v-29l-3-20-5-18-8-19-10-18-12-16-19-19-18-13-16-9-19-8-19-5-21-3z" />
+                                    <path transform="translate(770,705)" d="m0 0h61v65h64l2 2v57l-1 2h-65v65l-36 1h-22l-3-1v-65h-65v-61h65z" />
+                                    <path transform="translate(1023,832)" d="m0 0" />
+                                </svg>
+                            </button>
+                        </span>
+                        <div className="cntListProds2  mt20  c-s-s wmia" style={{ overflow: "auto" }} >
+                            {
+                                isLoaddingCustomProds ? <GoodLoader /> :
+                                    CustomProds && CustomProds.map(p =>
+                                        <div className='wmia p10 h300 r-p-c psr mb20 ' key={p.id}>
+                                            <img src={p.images[0]} alt="" className="hmia" />
+                                            <div className="cntSeconfInfo c-s-s ml20">
+                                                <h1>{p.title}</h1>
+                                                <h2 className='mt10'>$ {p.price}</h2>
+                                                <span className="cntBtnIncreaseDecrease r-s-c mt20">
+                                                    <p className='mr20 r-c-c'><svg version="1.1" viewBox="0 0 2048 2048" className='mr10' xmlns="http://www.w3.org/2000/svg">
+                                                        <path transform="translate(887,50)" d="m0 0h637l24 1 17 3 14 5 14 8 11 9 8 8 10 14 8 14 5 15 3 18 1 30v105l-1 511-2 29-4 17-8 17-9 15h300l33 1 15 1 18 4 16 8 12 9 8 7 11 14 13 21 7 11v711l-3-1-14 21-9 11-12 13-14 15-12 12-4 5-13 13h-2l-2 4-156 156h-2l-2 4-16 16h-2l-2 4h-2l-2 4-4 4h-2l-2 4-12 12-8 7-13 12-18 12-16 7-12 3-23 2-45 1h-609l-76-1-13-1-8-3-11-8-9-6-8-6-5-1-8 6-9 7-12 6-11 4-7 1-19 1-118 1h-567l-34-1-17-1-17-4-16-8-9-7-10-9-11-13-7-11-9-14-3-3-1-2v-743l3-1 2-5 8-14 10-14 13-13 24-18 19-13 20-14 34-24 16-11 40-28 34-24 20-14 18-13 14-10 20-14 18-13 19-13 17-12 33-22 15-9 16-7 16-5 12-3v-257l1-163 1-53 2-22 4-17 4-9 7-11 6-8h2l2-4 12-11 14-10 24-16 34-24 43-30 14-10 18-13 12-8 18-13 19-13 18-13 34-24 14-10 17-12 40-28 18-13 15-10 15-8 12-4 12-2zm355 68-12 8-13 10-11 9-12 9-11 9-10 8-14 11-13 10-9 7-14 11-16 13-8 6-9 7-19 14-13 11-14 10-18 14-2 3 195 2 50 1 16 1 18 6 5 1 6-4 14-12 8-7 14-12 17-16 8-7 14-12 10-9 11-9 15-13 11-10 11-9 15-14 11-9 12-11 8-7 10-9 10-10v-1h-19l-14 1h-50zm-350 1m225-2-34 2h-180l-13 2 1-2-13 1-14 8-14 10-19 13-13 10-18 13-19 13-14 10-19 14-22 15-14 10-13 9-16 12-24 15-15 11-3 4 75 1 46 1 106 1 35-1 10-3 9-6 12-9 14-11 16-13 17-13 9-8 12-9 26-20 18-14 14-11 16-13 16-12 13-10 15-13 5-6v-1zm449 50-11 8-10 9-13 12-12 11-10 8-11 10-22 18-7 7-11 9-13 12-8 7-11 10-11 9-15 14-14 11-16 13-7 5-6 7 1 7 5 17 1 13v552l-1 84 4-2v-2l4-2 17-17v-2l3-1 5-5v-2l4-2v-2l3-1 7-8 13-13v-2l4-2 8-8 7-8 49-49 8-7v-2h2v-2l4-2 32-32 8-7 3-3v-2l3-1 7-8 6-7 3-8 1-21v-619zm2 1m-1019 190-18 2-10 5-4 5-4 17-1 7-1 151v249l1 278 3 14 6 12 7 6 6 2 23 2 33 1h226l446-1 15-3 6-3 6-5 4-9 2-12 1-63v-604l-1-26-3-10-3-5-10-7-5-2-62-1zm-109 579-17 9-19 14-11 7-11 8-15 10-20 14-14 10-17 12-10 7-15 11-17 12-16 11-16 12-17 12-18 12-11 9v1l44-1h17l172 3h16l-2-49-1-95v-29zm1481-1-25 2h-349l-10 6-84 84v2h-2v2h-2l-7 8-25 25-7 8-11 11-11 9-12 12-1 3h46l252 2 19 1 29 7 8-7 9-9 11-9 9-9 8-7 10-9 8-7 10-9 8-7 10-9 11-9 11-10 11-9 10-9 28-24 10-9 14-12 9-9v-2l4-2 3-5zm56 48-15 13-10 9-11 9-10 9-11 9-12 11-11 9-13 12-8 7-13 12-10 8-7 7-8 7-10 9-10 8-14 12-9 7-10 9-14 11-6 6 1 7 5 5 2 9 1 47v542l1 59 5-3 25-25v-2l3-1 7-8 5-5v-2l4-2 65-65 4-3v-2l4-2 4-4v-2l4-2 8-8v-2l4-2 52-52 6-10 3-6 1-31v-614zm-965 193-63 1-13 2-8 5-4 13-2 18v681l3 12 5 9 8 5 11 3 12 1 58 1h598l52-1 16-2 9-4 5-5 4-13 1-5 1-15v-678l-4-13-4-8-10-5-10-1-485-1zm-559 0-361 1-9 2-6 3-2 2-5 18-1 19-1 69v575l1 29 2 12 3 9 5 6 8 3 17 2 82 1h472l163-1 12-2 10-5 4-4 2-9 2-22 2-340v-266l-1-66-2-15-4-10-8-7-10-3z" />
+                                                        <path transform="translate(206,1654)" d="m0 0h117l26 1 15 3 10 4 11 8 8 8 9 14 5 13 3 20 1 18v35l-3 26-5 15-7 12-7 9h-2l-2 4-10 8-11 4-11 2-15 1-53 1h-69l-22-1-12-2-12-5-10-8-9-9-9-14-4-11-3-13-1-10-1-22v-15l1-28 3-16 5-13 7-11 11-12 10-7 13-6 9-2zm0 69-1 3-1 17-1 40 1 7 1 1h131l3-1 1-7v-58l-4-1z" />
+                                                        <path transform="translate(1061,1654)" d="m0 0h111l27 1 17 3 10 4 10 6 9 8 7 10 6 12 3 11 2 16 1 25v14l-1 24-3 20-5 14-6 9-8 10-10 9-10 5-14 3-13 1-31 1h-95l-21-1-14-3-14-7-11-10-10-14-5-10-4-14-2-18v-40l2-27 4-17 8-15 8-10 8-7 14-8 13-4zm-1 69-2 1-1 33v32l6 2h125l4-1 1-3 1-38 1-24-1-1z" />
+                                                        <path transform="translate(659,835)" d="m0 0h113l27 2 12 3 11 6 10 9 7 7 6 10 5 12 3 14 1 9 1 20v28l-2 21-3 15-6 14-9 12-10 10-12 8-12 3-33 2h-126l-14-2-10-3-11-7-11-10-9-13-5-13-3-14-1-9-1-25v-14l1-25 2-16 5-14 6-11 11-12 14-9 13-5 13-2zm-10 69-1 27v40l2 1 17 1 112-1 4-1 1-7v-60z" />
+                                                        <path transform="translate(646,1654)" d="m0 0h79l26 1 13 3 11 6 6 9 2 8v14l-3 12-7 9-14 7-74 1h-32l-15-1-8-3-9-10-8-16-1-4v-7l5-10 9-11 8-5z" />
+                                                        <path transform="translate(1506,1654)" d="m0 0h67l30 1 14 3 9 4 5 4 4 8 1 3v21l-4 12-4 5-10 5-10 3h-116l-9-3-9-9-5-10-2-7v-12l5-13 5-6 16-8z" />
+                                                        <path transform="translate(1104,835)" d="m0 0h69l23 1 11 2 9 5 7 8 4 11v15l-4 13-7 8-9 4-6 1-37 1h-75l-12-2-9-7-5-6-6-13-1-7 3-12 6-10h2l2-4 7-5 9-2z" />
+                                                        <path transform="translate(1090,972)" d="m0 0h107l10 2 10 6 7 9 3 7 1 13-2 10-7 12-7 6-9 2-36 1h-80l-12-2-5-4-7-10-5-10-1-3v-8l4-13 9-11 6-5 2-1z" />
+                                                        <path transform="translate(653,1791)" d="m0 0h80l23 1 9 2 9 6 6 7 2 5 1 6v14l-3 10-6 8-8 6-4 2-7 1h-115l-8-2-6-4-6-9-7-12-1-9 8-16 8-10 5-4 3-1z" />
+                                                        <path transform="translate(1520,1791)" d="m0 0h75l16 1 10 3 9 8 5 9 2 10-1 14-4 10-4 6-8 4-10 3h-116l-9-2-8-6-7-12-2-7v-13l4-12 9-10 6-4 5-1z" />
+                                                        <path transform="translate(2046,1660)" d="m0 0 2 1-2 1z" />
+                                                        <path transform="translate(0,1925)" d="m0 0" />
+                                                        <path transform="translate(2044,1662)" d="m0 0" />
+                                                    </svg>Quantity</p>
+                                                    <button className='btnIncreseQuantity mr15 tbnsRegl ' onClick={() => handelIncreaseQuant(p.id)} >
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" /></svg>
+                                                    </button>
+                                                    <h1 className='ml10 mr10 logo'> {p.quantity}
+                                                    </h1>
+                                                    {
+                                                        p.quantity > 1 ?
+                                                            <button className='btnDeccreseQuantity ml15 tbnsRegl ' onClick={() => handelDecreaseQuant(p.id)} >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-440v-80h560v80H200Z" /></svg>
+                                                            </button>
+                                                            : null
+                                                    }
+                                                </span>
+
+                                            </div>
+                                            <span className='r-c-c ml20' style={{ fontSize: "16px" }}>
+                                                Total :
+                                                <h1 className='ml10 ' style={{ fontSize: "20px" }}>
+                                                    $ {getRealNumber(p.quantity * p.price)}
+                                                </h1>
+                                            </span>
+                                        </div>
+                                    )
+
+
+
+
+                            }
+                        </div>
                         {
                             isLoaddingCustomProds ? <GoodLoader /> :
-                                CustomProds && CustomProds.map(p =>
-                                    <div className='wmia p10 h300 r-p-c psr mb20 ' key={p.id}>
-                                        <img src={p.images[0]} alt="" className="hmia" />
-                                        <div className="cntSeconfInfo c-s-s ml20">
-                                            <h1>{p.title}</h1>
-                                            <h2 className='mt10'>$ {p.price}</h2>
-                                            <span className="cntBtnIncreaseDecrease r-s-c mt20">
-                                                <p className='mr20 r-c-c'><svg version="1.1" viewBox="0 0 2048 2048" className='mr10' xmlns="http://www.w3.org/2000/svg">
-                                                    <path transform="translate(887,50)" d="m0 0h637l24 1 17 3 14 5 14 8 11 9 8 8 10 14 8 14 5 15 3 18 1 30v105l-1 511-2 29-4 17-8 17-9 15h300l33 1 15 1 18 4 16 8 12 9 8 7 11 14 13 21 7 11v711l-3-1-14 21-9 11-12 13-14 15-12 12-4 5-13 13h-2l-2 4-156 156h-2l-2 4-16 16h-2l-2 4h-2l-2 4-4 4h-2l-2 4-12 12-8 7-13 12-18 12-16 7-12 3-23 2-45 1h-609l-76-1-13-1-8-3-11-8-9-6-8-6-5-1-8 6-9 7-12 6-11 4-7 1-19 1-118 1h-567l-34-1-17-1-17-4-16-8-9-7-10-9-11-13-7-11-9-14-3-3-1-2v-743l3-1 2-5 8-14 10-14 13-13 24-18 19-13 20-14 34-24 16-11 40-28 34-24 20-14 18-13 14-10 20-14 18-13 19-13 17-12 33-22 15-9 16-7 16-5 12-3v-257l1-163 1-53 2-22 4-17 4-9 7-11 6-8h2l2-4 12-11 14-10 24-16 34-24 43-30 14-10 18-13 12-8 18-13 19-13 18-13 34-24 14-10 17-12 40-28 18-13 15-10 15-8 12-4 12-2zm355 68-12 8-13 10-11 9-12 9-11 9-10 8-14 11-13 10-9 7-14 11-16 13-8 6-9 7-19 14-13 11-14 10-18 14-2 3 195 2 50 1 16 1 18 6 5 1 6-4 14-12 8-7 14-12 17-16 8-7 14-12 10-9 11-9 15-13 11-10 11-9 15-14 11-9 12-11 8-7 10-9 10-10v-1h-19l-14 1h-50zm-350 1m225-2-34 2h-180l-13 2 1-2-13 1-14 8-14 10-19 13-13 10-18 13-19 13-14 10-19 14-22 15-14 10-13 9-16 12-24 15-15 11-3 4 75 1 46 1 106 1 35-1 10-3 9-6 12-9 14-11 16-13 17-13 9-8 12-9 26-20 18-14 14-11 16-13 16-12 13-10 15-13 5-6v-1zm449 50-11 8-10 9-13 12-12 11-10 8-11 10-22 18-7 7-11 9-13 12-8 7-11 10-11 9-15 14-14 11-16 13-7 5-6 7 1 7 5 17 1 13v552l-1 84 4-2v-2l4-2 17-17v-2l3-1 5-5v-2l4-2v-2l3-1 7-8 13-13v-2l4-2 8-8 7-8 49-49 8-7v-2h2v-2l4-2 32-32 8-7 3-3v-2l3-1 7-8 6-7 3-8 1-21v-619zm2 1m-1019 190-18 2-10 5-4 5-4 17-1 7-1 151v249l1 278 3 14 6 12 7 6 6 2 23 2 33 1h226l446-1 15-3 6-3 6-5 4-9 2-12 1-63v-604l-1-26-3-10-3-5-10-7-5-2-62-1zm-109 579-17 9-19 14-11 7-11 8-15 10-20 14-14 10-17 12-10 7-15 11-17 12-16 11-16 12-17 12-18 12-11 9v1l44-1h17l172 3h16l-2-49-1-95v-29zm1481-1-25 2h-349l-10 6-84 84v2h-2v2h-2l-7 8-25 25-7 8-11 11-11 9-12 12-1 3h46l252 2 19 1 29 7 8-7 9-9 11-9 9-9 8-7 10-9 8-7 10-9 8-7 10-9 11-9 11-10 11-9 10-9 28-24 10-9 14-12 9-9v-2l4-2 3-5zm56 48-15 13-10 9-11 9-10 9-11 9-12 11-11 9-13 12-8 7-13 12-10 8-7 7-8 7-10 9-10 8-14 12-9 7-10 9-14 11-6 6 1 7 5 5 2 9 1 47v542l1 59 5-3 25-25v-2l3-1 7-8 5-5v-2l4-2 65-65 4-3v-2l4-2 4-4v-2l4-2 8-8v-2l4-2 52-52 6-10 3-6 1-31v-614zm-965 193-63 1-13 2-8 5-4 13-2 18v681l3 12 5 9 8 5 11 3 12 1 58 1h598l52-1 16-2 9-4 5-5 4-13 1-5 1-15v-678l-4-13-4-8-10-5-10-1-485-1zm-559 0-361 1-9 2-6 3-2 2-5 18-1 19-1 69v575l1 29 2 12 3 9 5 6 8 3 17 2 82 1h472l163-1 12-2 10-5 4-4 2-9 2-22 2-340v-266l-1-66-2-15-4-10-8-7-10-3z" />
-                                                    <path transform="translate(206,1654)" d="m0 0h117l26 1 15 3 10 4 11 8 8 8 9 14 5 13 3 20 1 18v35l-3 26-5 15-7 12-7 9h-2l-2 4-10 8-11 4-11 2-15 1-53 1h-69l-22-1-12-2-12-5-10-8-9-9-9-14-4-11-3-13-1-10-1-22v-15l1-28 3-16 5-13 7-11 11-12 10-7 13-6 9-2zm0 69-1 3-1 17-1 40 1 7 1 1h131l3-1 1-7v-58l-4-1z" />
-                                                    <path transform="translate(1061,1654)" d="m0 0h111l27 1 17 3 10 4 10 6 9 8 7 10 6 12 3 11 2 16 1 25v14l-1 24-3 20-5 14-6 9-8 10-10 9-10 5-14 3-13 1-31 1h-95l-21-1-14-3-14-7-11-10-10-14-5-10-4-14-2-18v-40l2-27 4-17 8-15 8-10 8-7 14-8 13-4zm-1 69-2 1-1 33v32l6 2h125l4-1 1-3 1-38 1-24-1-1z" />
-                                                    <path transform="translate(659,835)" d="m0 0h113l27 2 12 3 11 6 10 9 7 7 6 10 5 12 3 14 1 9 1 20v28l-2 21-3 15-6 14-9 12-10 10-12 8-12 3-33 2h-126l-14-2-10-3-11-7-11-10-9-13-5-13-3-14-1-9-1-25v-14l1-25 2-16 5-14 6-11 11-12 14-9 13-5 13-2zm-10 69-1 27v40l2 1 17 1 112-1 4-1 1-7v-60z" />
-                                                    <path transform="translate(646,1654)" d="m0 0h79l26 1 13 3 11 6 6 9 2 8v14l-3 12-7 9-14 7-74 1h-32l-15-1-8-3-9-10-8-16-1-4v-7l5-10 9-11 8-5z" />
-                                                    <path transform="translate(1506,1654)" d="m0 0h67l30 1 14 3 9 4 5 4 4 8 1 3v21l-4 12-4 5-10 5-10 3h-116l-9-3-9-9-5-10-2-7v-12l5-13 5-6 16-8z" />
-                                                    <path transform="translate(1104,835)" d="m0 0h69l23 1 11 2 9 5 7 8 4 11v15l-4 13-7 8-9 4-6 1-37 1h-75l-12-2-9-7-5-6-6-13-1-7 3-12 6-10h2l2-4 7-5 9-2z" />
-                                                    <path transform="translate(1090,972)" d="m0 0h107l10 2 10 6 7 9 3 7 1 13-2 10-7 12-7 6-9 2-36 1h-80l-12-2-5-4-7-10-5-10-1-3v-8l4-13 9-11 6-5 2-1z" />
-                                                    <path transform="translate(653,1791)" d="m0 0h80l23 1 9 2 9 6 6 7 2 5 1 6v14l-3 10-6 8-8 6-4 2-7 1h-115l-8-2-6-4-6-9-7-12-1-9 8-16 8-10 5-4 3-1z" />
-                                                    <path transform="translate(1520,1791)" d="m0 0h75l16 1 10 3 9 8 5 9 2 10-1 14-4 10-4 6-8 4-10 3h-116l-9-2-8-6-7-12-2-7v-13l4-12 9-10 6-4 5-1z" />
-                                                    <path transform="translate(2046,1660)" d="m0 0 2 1-2 1z" />
-                                                    <path transform="translate(0,1925)" d="m0 0" />
-                                                    <path transform="translate(2044,1662)" d="m0 0" />
-                                                </svg>Quantity</p>
-                                                <button className='btnIncreseQuantity mr15 tbnsRegl ' onClick={() => handelIncreaseQuant(p.id)} >
-
-                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" /></svg>
-                                                </button>
-                                                <h1 className='ml10 mr10 logo'> {p.quantity}
-                                                </h1>
-                                                {
-                                                    p.quantity > 1 ?
-                                                        <button className='btnDeccreseQuantity ml15 tbnsRegl ' onClick={() => handelDecreaseQuant(p.id)} >
-                                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-440v-80h560v80H200Z" /></svg>
-                                                        </button>
-                                                        : null
-                                                }
-                                            </span>
-
-                                        </div>
-                                        <span className='r-c-c ml20' style={{ fontSize: "16px" }}>
-                                            Total :
-                                            <h1 className='ml10 ' style={{ fontSize: "20px" }}>
-                                                $ {getRealNumber(p.quantity * p.price)}
-                                            </h1>
-                                        </span>
-                                    </div>
-                                )
-
-
-
-
+                                <span style={{ alignSelf: "end", fontSize: "16px" }} className='mt20 r-c-c'>
+                                    {CustomProds && <> Subtotal : <h2 className='ml10'>{CustomProds.reduce((c, el) => c + el.quantity, 0)} items </h2> <h1 style={{ fontSize: "20px" }} className='ml10 mr20'> $ {getRealNumber(CustomProds.reduce((c, el) => c + (el.quantity * el.price), 0))}</h1></>}
+                                    <button className='bl p10 ml20 w100  br20' onClick={handelDoneStep3}>Done <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
+                                </span>
                         }
+                        <button className='cr   mt10' onClick={() => dispatch(backToStep2())}><svg xmlns="http://www.w3.org/2000/svg" style={{ transform: "rotate(180deg)" }} viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg>back</button>
                     </div>
-                    {
-                        isLoaddingCustomProds ? <GoodLoader /> :
-                            <span style={{ alignSelf: "end", fontSize: "16px" }} className='mt20 r-c-c'>
-                                {CustomProds && <> Subtotal : <h2 className='ml10'>{CustomProds.reduce((c, el) => c + el.quantity, 0)} items </h2> <h1 style={{ fontSize: "20px" }} className='ml10 mr20'> $ {getRealNumber(CustomProds.reduce((c, el) => c + (el.quantity * el.price), 0))}</h1></>}
-                                <button className='bl p10 ml20 w100  br20' onClick={handelDoneStep3}>Done <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
-                            </span>
-                    }
-                    <button className='cr   mt10' onClick={() => dispatch(backToStep2())}><svg xmlns="http://www.w3.org/2000/svg" style={{ transform: "rotate(180deg)" }} viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg>back</button>
-                </div>
-            )
+                )
+            } else {
+                return (
+                    <div className="c-s-s   wmia">
+                        {MoreProdsVSBL && <GetMoreProds />}
+                        <span className="wmia r-b-c">
+                            <p className='ml10'>Step 3 : <strong className='ml10'>Specify the quantity of products </strong></p>
+
+                        </span>
+                        <div className="cntListProds2  mt20  c-s-s wmia" style={{ overflow: "auto" }} >
+                            {
+                                isLoaddingCustomProds ? <GoodLoader /> :
+                                    CustomProds && CustomProds.map(p =>
+                                        <div className='wmia p10 h200 r-p-c psr mb20 ' key={p.id}>
+                                            <img src={p.images[0]} alt="" className="w100" />
+                                            <div className="cntSeconfInfo c-s-s ml10">
+                                                <h1>{p.title}</h1>
+                                                <h2 className='mt10'>$ {p.price}</h2>
+                                                <span className="cntBtnIncreaseDecrease r-s-c mt20">
+                                                    <p className='mr20 r-c-c'><svg version="1.1" viewBox="0 0 2048 2048" className='mr10' xmlns="http://www.w3.org/2000/svg">
+                                                        <path transform="translate(887,50)" d="m0 0h637l24 1 17 3 14 5 14 8 11 9 8 8 10 14 8 14 5 15 3 18 1 30v105l-1 511-2 29-4 17-8 17-9 15h300l33 1 15 1 18 4 16 8 12 9 8 7 11 14 13 21 7 11v711l-3-1-14 21-9 11-12 13-14 15-12 12-4 5-13 13h-2l-2 4-156 156h-2l-2 4-16 16h-2l-2 4h-2l-2 4-4 4h-2l-2 4-12 12-8 7-13 12-18 12-16 7-12 3-23 2-45 1h-609l-76-1-13-1-8-3-11-8-9-6-8-6-5-1-8 6-9 7-12 6-11 4-7 1-19 1-118 1h-567l-34-1-17-1-17-4-16-8-9-7-10-9-11-13-7-11-9-14-3-3-1-2v-743l3-1 2-5 8-14 10-14 13-13 24-18 19-13 20-14 34-24 16-11 40-28 34-24 20-14 18-13 14-10 20-14 18-13 19-13 17-12 33-22 15-9 16-7 16-5 12-3v-257l1-163 1-53 2-22 4-17 4-9 7-11 6-8h2l2-4 12-11 14-10 24-16 34-24 43-30 14-10 18-13 12-8 18-13 19-13 18-13 34-24 14-10 17-12 40-28 18-13 15-10 15-8 12-4 12-2zm355 68-12 8-13 10-11 9-12 9-11 9-10 8-14 11-13 10-9 7-14 11-16 13-8 6-9 7-19 14-13 11-14 10-18 14-2 3 195 2 50 1 16 1 18 6 5 1 6-4 14-12 8-7 14-12 17-16 8-7 14-12 10-9 11-9 15-13 11-10 11-9 15-14 11-9 12-11 8-7 10-9 10-10v-1h-19l-14 1h-50zm-350 1m225-2-34 2h-180l-13 2 1-2-13 1-14 8-14 10-19 13-13 10-18 13-19 13-14 10-19 14-22 15-14 10-13 9-16 12-24 15-15 11-3 4 75 1 46 1 106 1 35-1 10-3 9-6 12-9 14-11 16-13 17-13 9-8 12-9 26-20 18-14 14-11 16-13 16-12 13-10 15-13 5-6v-1zm449 50-11 8-10 9-13 12-12 11-10 8-11 10-22 18-7 7-11 9-13 12-8 7-11 10-11 9-15 14-14 11-16 13-7 5-6 7 1 7 5 17 1 13v552l-1 84 4-2v-2l4-2 17-17v-2l3-1 5-5v-2l4-2v-2l3-1 7-8 13-13v-2l4-2 8-8 7-8 49-49 8-7v-2h2v-2l4-2 32-32 8-7 3-3v-2l3-1 7-8 6-7 3-8 1-21v-619zm2 1m-1019 190-18 2-10 5-4 5-4 17-1 7-1 151v249l1 278 3 14 6 12 7 6 6 2 23 2 33 1h226l446-1 15-3 6-3 6-5 4-9 2-12 1-63v-604l-1-26-3-10-3-5-10-7-5-2-62-1zm-109 579-17 9-19 14-11 7-11 8-15 10-20 14-14 10-17 12-10 7-15 11-17 12-16 11-16 12-17 12-18 12-11 9v1l44-1h17l172 3h16l-2-49-1-95v-29zm1481-1-25 2h-349l-10 6-84 84v2h-2v2h-2l-7 8-25 25-7 8-11 11-11 9-12 12-1 3h46l252 2 19 1 29 7 8-7 9-9 11-9 9-9 8-7 10-9 8-7 10-9 8-7 10-9 11-9 11-10 11-9 10-9 28-24 10-9 14-12 9-9v-2l4-2 3-5zm56 48-15 13-10 9-11 9-10 9-11 9-12 11-11 9-13 12-8 7-13 12-10 8-7 7-8 7-10 9-10 8-14 12-9 7-10 9-14 11-6 6 1 7 5 5 2 9 1 47v542l1 59 5-3 25-25v-2l3-1 7-8 5-5v-2l4-2 65-65 4-3v-2l4-2 4-4v-2l4-2 8-8v-2l4-2 52-52 6-10 3-6 1-31v-614zm-965 193-63 1-13 2-8 5-4 13-2 18v681l3 12 5 9 8 5 11 3 12 1 58 1h598l52-1 16-2 9-4 5-5 4-13 1-5 1-15v-678l-4-13-4-8-10-5-10-1-485-1zm-559 0-361 1-9 2-6 3-2 2-5 18-1 19-1 69v575l1 29 2 12 3 9 5 6 8 3 17 2 82 1h472l163-1 12-2 10-5 4-4 2-9 2-22 2-340v-266l-1-66-2-15-4-10-8-7-10-3z" />
+                                                        <path transform="translate(206,1654)" d="m0 0h117l26 1 15 3 10 4 11 8 8 8 9 14 5 13 3 20 1 18v35l-3 26-5 15-7 12-7 9h-2l-2 4-10 8-11 4-11 2-15 1-53 1h-69l-22-1-12-2-12-5-10-8-9-9-9-14-4-11-3-13-1-10-1-22v-15l1-28 3-16 5-13 7-11 11-12 10-7 13-6 9-2zm0 69-1 3-1 17-1 40 1 7 1 1h131l3-1 1-7v-58l-4-1z" />
+                                                        <path transform="translate(1061,1654)" d="m0 0h111l27 1 17 3 10 4 10 6 9 8 7 10 6 12 3 11 2 16 1 25v14l-1 24-3 20-5 14-6 9-8 10-10 9-10 5-14 3-13 1-31 1h-95l-21-1-14-3-14-7-11-10-10-14-5-10-4-14-2-18v-40l2-27 4-17 8-15 8-10 8-7 14-8 13-4zm-1 69-2 1-1 33v32l6 2h125l4-1 1-3 1-38 1-24-1-1z" />
+                                                        <path transform="translate(659,835)" d="m0 0h113l27 2 12 3 11 6 10 9 7 7 6 10 5 12 3 14 1 9 1 20v28l-2 21-3 15-6 14-9 12-10 10-12 8-12 3-33 2h-126l-14-2-10-3-11-7-11-10-9-13-5-13-3-14-1-9-1-25v-14l1-25 2-16 5-14 6-11 11-12 14-9 13-5 13-2zm-10 69-1 27v40l2 1 17 1 112-1 4-1 1-7v-60z" />
+                                                        <path transform="translate(646,1654)" d="m0 0h79l26 1 13 3 11 6 6 9 2 8v14l-3 12-7 9-14 7-74 1h-32l-15-1-8-3-9-10-8-16-1-4v-7l5-10 9-11 8-5z" />
+                                                        <path transform="translate(1506,1654)" d="m0 0h67l30 1 14 3 9 4 5 4 4 8 1 3v21l-4 12-4 5-10 5-10 3h-116l-9-3-9-9-5-10-2-7v-12l5-13 5-6 16-8z" />
+                                                        <path transform="translate(1104,835)" d="m0 0h69l23 1 11 2 9 5 7 8 4 11v15l-4 13-7 8-9 4-6 1-37 1h-75l-12-2-9-7-5-6-6-13-1-7 3-12 6-10h2l2-4 7-5 9-2z" />
+                                                        <path transform="translate(1090,972)" d="m0 0h107l10 2 10 6 7 9 3 7 1 13-2 10-7 12-7 6-9 2-36 1h-80l-12-2-5-4-7-10-5-10-1-3v-8l4-13 9-11 6-5 2-1z" />
+                                                        <path transform="translate(653,1791)" d="m0 0h80l23 1 9 2 9 6 6 7 2 5 1 6v14l-3 10-6 8-8 6-4 2-7 1h-115l-8-2-6-4-6-9-7-12-1-9 8-16 8-10 5-4 3-1z" />
+                                                        <path transform="translate(1520,1791)" d="m0 0h75l16 1 10 3 9 8 5 9 2 10-1 14-4 10-4 6-8 4-10 3h-116l-9-2-8-6-7-12-2-7v-13l4-12 9-10 6-4 5-1z" />
+                                                        <path transform="translate(2046,1660)" d="m0 0 2 1-2 1z" />
+                                                        <path transform="translate(0,1925)" d="m0 0" />
+                                                        <path transform="translate(2044,1662)" d="m0 0" />
+                                                    </svg>Quantity</p>
+                                                    <button className='btnIncreseQuantity mr15 tbnsRegl ' onClick={() => handelIncreaseQuant(p.id)} >
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" /></svg>
+                                                    </button>
+                                                    <h1 className='ml10 mr10 logo'> {p.quantity}
+                                                    </h1>
+                                                    {
+                                                        p.quantity > 1 ?
+                                                            <button className='btnDeccreseQuantity ml15 tbnsRegl ' onClick={() => handelDecreaseQuant(p.id)} >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-440v-80h560v80H200Z" /></svg>
+                                                            </button>
+                                                            : null
+                                                    }
+                                                </span>
+                                                <span className='r-c-c  mt20' style={{ fontSize: "16px" }}>
+                                                Total :
+                                                <h1 className='ml10 ' style={{ fontSize: "20px" }}>
+                                                    $ {getRealNumber(p.quantity * p.price)}
+                                                </h1>
+                                            </span>
+                                            </div>
+                                            
+                                        </div>
+                                    )
+
+
+
+
+                            }
+                        </div>
+
+                        {
+                            isLoaddingCustomProds ? <GoodLoader /> :
+                                <span style={{ alignSelf: "end", fontSize: "16px" }} className='mt50 wmia c-ss'>
+                                    {
+                                    CustomProds && <span className='r-s-c'> Subtotal : <h2 className='r-s-c '>{CustomProds.reduce((c, el) => c + el.quantity, 0)} items </h2> <h1 style={{ fontSize: "20px" }} className='ml10 mr20'> $ {getRealNumber(CustomProds.reduce((c, el) => c + (el.quantity * el.price), 0))}</h1></span>
+                                    }
+                                    <button className={"wmia cl mt20 p10 br20"} onClick={() => { setMoreProdsVSBL(true) }}>Add more products
+                                        <svg version="1.1" viewBox="0 0 1024 1024" width="256" height="256" xmlns="http://www.w3.org/2000/svg">
+                                            <path transform="translate(431)" d="m0 0h7l9 6 18 10 24 14 52 30 24 14 28 16 52 30 24 14 28 16 24 14 28 16 24 14 28 16 24 14 21 12 22 13 2 3 1 336 21 8 23 12 18 12 11 9 10 9 6 5 7 8 12 14 9 13 9 15 8 16 7 17 8 28 2 10h2v67l-2 5-4 18-6 21-6 15-9 19-10 16-8 11-9 11-12 13-4 4h-2v2h-2v2l-14 11-16 11-17 10-20 9-21 7-26 6-8 2h-62v-2l-27-6-21-7-27-13-16-10-17-13-15-14-11-11-11-14-14-21-3-5-5 2-18 10-24 14-28 16-26 15-24 14-23 13-13 8-7 4-4-1-25-14-17-10-21-12-26-15-24-14-26-15-21-12-26-15-24-14-52-30-21-12-24-14-104-60-21-12v-504l10-6 24-14 130-75 17-10 28-16 26-15 24-14 14-8 24-14 28-16 24-14 28-16 24-14 23-13 5-3h2zm3 70-11 6-28 16-24 14-21 12-24 14-14 8-24 14-23 13-24 14-26 15-28 16-27 16-25 14-27 16-14 8-2 3 21 12 24 14 52 30 24 14 28 16 24 14 21 12 17 10 28 16 78 45 24 14h3l23-13 24-14 104-60 24-14 21-12 24-14 28-16 24-14 23-13 24-14 22-13v-2l-24-14-208-120-24-14-28-16-24-14-21-12-10-6zm-373 251-1 59v338l21 12 24 14 14 8 24 14 42 24 24 14 14 8 24 14 21 12 24 14 28 16 26 15 28 16 17 10 10 6h3v-395l-5-4-97-56-24-14-28-16-24-14-52-30-28-16-24-14-52-30zm747 0-28 16-104 60-24 14-28 16-17 10-49 28-24 14-52 30-15 9-2 2v395l5-1 24-14 43-25 28-16 16-9 1-5-3-18-1-10v-30l3-25 5-22 7-21 14-29 12-19 13-16 11-12 10-10 17-13 10-7 17-10 19-9 27-9 25-5 19-2 21-1 1-8v-248zm-19 317-22 3-21 6-17 7-14 8-17 12-16 15-11 13-7 10-9 16-9 21-6 24-2 18v19l3 24 6 21 9 21 11 18 11 14 17 17 18 13 16 9 11 5 18 6 20 4 9 1h28l20-3 18-5 19-8 18-10 12-9 14-12 10-11v-2h2l10-14 8-14 8-19 6-21 3-20v-29l-3-20-5-18-8-19-10-18-12-16-19-19-18-13-16-9-19-8-19-5-21-3z" />
+                                            <path transform="translate(770,705)" d="m0 0h61v65h64l2 2v57l-1 2h-65v65l-36 1h-22l-3-1v-65h-65v-61h65z" />
+                                            <path transform="translate(1023,832)" d="m0 0" />
+                                        </svg>
+                                    </button>
+                                    <button className='bl p10 mt20 wmia  br20' onClick={handelDoneStep3}>Done <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
+                                </span>
+                        }
+
+                        <button className='cr   mt50' onClick={() => dispatch(backToStep2())}><svg xmlns="http://www.w3.org/2000/svg" style={{ transform: "rotate(180deg)" }} viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg>back</button>
+                    </div>
+                )
+            }
 
 
         }
@@ -925,42 +1177,82 @@ export const CreateAnOrderCmp = () => {
             'confirmCancelCreateOrder'
         ]))
     }
-    return ReactDom.createPortal(
-        <div className="backendMer">
-            <main className=' p20 c-s-s bg-l br20 activeCmp ' style={{ minWidth: "700px", maxWidth: "1200px" }}>
-                <span className="wmia mb20  pb20 r-b-c" style={{ borderBottom: "solid 1px var(--border-color)" }}>
-                    <h1 className="">Start a New Order</h1>
-                    {
-                        orderCompleted ?
-                            <button className='r-c-c hoverEff2' onClick={() => dispatch(hideCmpCreateOrder())}>ending <svg xmlns="http://www.w3.org/2000/svg" className='ml10 h20' viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg></button>
-                            :
-                            <button className='r-c-c hoverEff2' onClick={handelCancelOrder}>Cancel<svg xmlns="http://www.w3.org/2000/svg" className='ml10 h20' viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg></button>
+    if (isWorkingOnPC) {
+        return ReactDom.createPortal(
+            <div className="backendMer">
+                <main className=' p20 c-s-s bg-l br20 activeCmp ' style={{ minWidth: "700px", maxWidth: "1200px" }}>
+                    <span className="wmia mb20  pb20 r-b-c" style={{ borderBottom: "solid 1px var(--border-color)" }}>
+                        <h1 className="">Start a New Order</h1>
+                        {
+                            orderCompleted ?
+                                <button className='r-c-c hoverEff2' onClick={() => dispatch(hideCmpCreateOrder())}>ending <svg xmlns="http://www.w3.org/2000/svg" className='ml10 h20' viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg></button>
+                                :
+                                <button className='r-c-c hoverEff2' onClick={handelCancelOrder}>Cancel<svg xmlns="http://www.w3.org/2000/svg" className='ml10 h20' viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg></button>
+                        }
+                    </span>
+                    {!createOrderStep1 && !createOrderStep2 && !createOrderStep3 && !finaleSteps &&
+                        <InitianleCreating />
                     }
-                </span>
-                {!createOrderStep1 && !createOrderStep2 && !createOrderStep3 && !finaleSteps &&
-                    <InitianleCreating />
-                }
-                {createOrderStep1 && <CreateOrderSt1 />}
-                {createOrderStep2 && <CreateOrderSt2 />}
-                {createOrderStep3 && <CreateOrderSt3 />}
-                {finaleSteps && <FinaleStepCmp />}
-                {SendingOrderVSBL && <SendingOrder />}
+                    {createOrderStep1 && <CreateOrderSt1 />}
+                    {createOrderStep2 && <CreateOrderSt2 />}
+                    {createOrderStep3 && <CreateOrderSt3 />}
+                    {finaleSteps && <FinaleStepCmp />}
+                    {SendingOrderVSBL && <SendingOrder />}
 
-            </main>
-        </div>
-        , document.getElementById("portlas")
-    )
+                </main>
+            </div>
+            , document.getElementById("portlas")
+        )
+    } else {
+
+        useEffect(() => {
+            MainOrderPagRef.current?.scrollIntoView({
+                behavior: "smooth", block: "start"
+            })
+        }
+            , []);
+
+        return (
+            <>
+                <main ref={MainOrderPagRef} className='c-s-s p5 '>
+                    <span className="wmia mb20  pb20 r-b-c" style={{ borderBottom: "solid 1px var(--border-color)" }}>
+                        <h1 className="">Start a New Order</h1>
+                    </span>
+                    {!createOrderStep1 && !createOrderStep2 && !createOrderStep3 && !finaleSteps &&
+                        <InitianleCreating />
+                    }
+                    {createOrderStep1 && <CreateOrderSt1 />}
+                    {createOrderStep2 && <CreateOrderSt2 />}
+                    {createOrderStep3 && <CreateOrderSt3 />}
+                    {finaleSteps && <FinaleStepCmp />}
+                    {SendingOrderVSBL && <SendingOrder />}
+
+                </main>
+            </>
+        )
+    }
+
 }
 
 export const BTN_MAN_ORDER = ({ prod }) => {
     const dispatch = useDispatch();
+    const isWorkingOnPC = window.innerWidth > 800
     const { OrdersList } = useSelector(s => s.OrderMan)
-    const { isLoggedIn } = useSelector(s => s.authe)
+    const { isLoggedIn } = useSelector(s => s.authe);
+    const navigate = useNavigate()
     const handelSendToStartOrder = () => {
         if (isLoggedIn) {
             dispatch(startOrder([{ id: prod.id, price: prod.price, quantity: 1 }]))
+            if (!isWorkingOnPC) {
+                navigate('/create_order')
+            }
+
         } else {
-            dispatch(showLogin())
+            if (isWorkingOnPC) {
+                dispatch(showLogin())
+            } else {
+                navigate('/login')
+            }
         }
     }
     let countProds = OrdersList.reduce((c, e) => {

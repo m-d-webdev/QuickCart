@@ -45,6 +45,8 @@ export
         }
     }, []);
 
+    const navigate = useNavigate()
+
     const mainShopRef = useRef(null)
     const ResSearcRef = useRef(null)
 

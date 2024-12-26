@@ -613,7 +613,21 @@
         margin-top: 40px;
         padding-left: 40px;
     }
-    .CNT_COFIRM_PASS{
+
+    .CNT_COFIRM_PASS {
         width: 100%;
     }
+
+    .introPageStyle {
+        margin-top: 0px;
+        margin-bottom: 30px;
+        max-width: none;
+    }
+    .SavedlistcntProdCart {
+        margin-top: 20px;
+    }
+    .SavedlistcntProdCart .cntProd{
+        width: 100%;
+    }
+
 }
