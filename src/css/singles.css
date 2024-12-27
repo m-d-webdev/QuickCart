@@ -623,11 +623,24 @@
         margin-bottom: 30px;
         max-width: none;
     }
+
     .SavedlistcntProdCart {
         margin-top: 20px;
     }
-    .SavedlistcntProdCart .cntProd{
+
+    .SavedlistcntProdCart .cntProd {
         width: 100%;
     }
+
+    .spnInfoOSsd h1 {
+        margin-left: 15px;
+    }
+
+    .spnInfoOSsd {
+        padding-bottom: 10px;
+        border-bottom: solid 1px var(--border-color);
+        width: 100%;
+    }
+
 
 }
