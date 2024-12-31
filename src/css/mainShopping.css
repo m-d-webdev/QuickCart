@@ -259,6 +259,7 @@
         width: 48%;
         margin: 0 !important;
         border: solid 1px transparent;
+        margin-bottom: 10px !important;
     }
 
 
@@ -392,11 +393,11 @@
     }
 
     .cntBtnsaves button {
-        width: 48%;
+        width: 48% !important;
     }
-
+   
     .cntBtnsOrder2 .BtnAddddToooCart {
-        width: 50%;
+        width: 48%;
     }
 
     .cntBtnsOrder2 .tbnAddToCArt {

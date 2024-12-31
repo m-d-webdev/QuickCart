@@ -4,60 +4,111 @@ import { useSelector, useDispatch } from 'react-redux'
 import { api } from '../../slices/fetchProdSlice';
 import ReactDom from "react-dom";
 import '../../css/singles.css'
-export const DispayRatingCmp = React.forwardRef(({ }, ref) => {
-    const { isVisible,
-        isLoadingRating,
-        prodDate } = useSelector(st => st.displayRating);
+export const DispayRatingCmp = React.forwardRef(({ Close_popup }, ref) => {
+    const { isLoadingRating, prodDate } = useSelector(st => st.displayRating);
+    const isWorkingOnPC = window.innerWidth > 800;
+    const popup_rating = useRef(null)
+    const BackendEleme = useRef(null)
     const dispatch = useDispatch()
     const getPersontage = (num) => {
         const reviewsCount = prodDate.reviews.length;
         let fuveStaes = prodDate.reviews.filter(t => t.rating == num).length;
-        console.log(fuveStaes);
         let pers = ((fuveStaes / reviewsCount) * 100).toString();
         if (pers.indexOf(".") != -1) {
             pers = pers.substring(0, pers.indexOf('.') + 2);
         }
         return pers;
     }
+    if (isWorkingOnPC) {
 
 
-    return (
-        <div ref={ref} className='displayRattngsCmp c-s-s  h300 bg-l b10 p20'>
-            {
-                isLoadingRating ?
-                    <div className="loader"></div>
-                    : <>
-                        <span className='r-s-c mb20'><svg version="1.1" viewBox="0 0 2048 2048" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
-                            <path transform="translate(1017,44)" d="m0 0h10l18 2 18 5 17 8 12 9 8 7 9 11 10 15 13 26 11 26 12 28 19 45 17 40 24 56 11 26 12 28 16 37 19 45 30 70 19 45 13 30 14 33 7 14 3 4 10 2 100 10 130 11 199 18 125 12 32 4 17 4 13 5 14 8 11 9 10 10 8 11 11 18 7 14 2 7v50l-2 4-4 4-9 17-9 12-9 10-7 7-7 8-8 7-8 8-8 7-10 9-11 9-15 14-11 9-15 13-11 10-8 7-14 12-7 7-11 9-11 10-11 9-11 10-8 7-10 9-11 9-15 13-12 11-8 7-10 9-8 7-10 9-8 7-11 9-12 11-11 9-12 11-11 9-12 11-8 7-12 11-11 9-9 9-11 9-9 8-14 11-14 12-3 3h-2l-2 4-1 6 3 17 8 36 13 59 11 49 13 57 11 48 12 54 12 53 13 57 11 48 13 57 6 27 4 27 1 10v11l-2 17-6 16-9 16-9 12-15 15-10 7-14 7-21 6-15 3h-19l-18-4-16-6-20-10-24-14-32-19-23-14-45-27-28-17-32-19-28-17-55-33-32-19-23-14-30-18-28-17-20-12-27-16-21-12-25-15-18-11-6-4-6 1-24 14-28 17-39 23-28 17-45 27-28 17-29 17-20 12-22 13-30 18-29 17-16 10-24 14-28 17-20 12-26 15-25 15-28 17-24 13-16 6-25 6-13 1-20-3-17-5-19-10-12-11-10-10-10-15-9-19-5-15-1-7v-22l4-28 9-41 16-71 15-66 9-39 17-75 20-88 16-71 13-57 5-23 7-30v-8l-7-9-13-11-8-7-28-24-10-9-8-7-10-9-11-9-7-7-8-7-10-9-11-9-13-12-11-9-14-13-11-9-12-11-11-9-11-10-8-7-15-13-10-9-8-7-10-9-11-9-12-11-8-7-14-12-10-9-11-9-10-9-11-9-14-13-8-7-20-18-12-11-8-7-10-9-11-9-22-22-8-11-14-25-2-3v-56l11-19 6-11 14-17 11-11 15-10 13-6 13-4 25-4 129-12 124-11 93-9 69-6 108-10 44-4 12-3 4-4 8-15 15-37 17-39 15-35 12-29 8-19 5-11 12-28 7-17 5-11 13-31 19-44 11-26 48-112 12-29 12-28 11-25 10-19 13-17 7-7 12-9 14-8 12-5 11-3z" fill="#FEBF11" />
-                        </svg>
-                            <h1 className='ml15'>{prodDate.rating}</h1>
-                        </span>
-                        <div className="wmia c-s-s mt10 mb20 cntINputsRang">
-                            <div className='r-b-c wmia '>    <p className='w50' style={{minWidth:"50px"}}>5 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(5)}%` }}></span></div><p className='ml10'>{`${getPersontage(5)}%`}</p></div>
-                            <div className='r-b-c wmia mt10'><p className='w50' style={{minWidth:"50px"}}>4 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(4)}%` }}></span></div><p className='ml10'>{`${getPersontage(4)}%`}</p></div>
-                            <div className='r-b-c wmia mt10'><p className='w50' style={{minWidth:"50px"}}>3 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(3)}%` }}></span></div><p className='ml10'>{`${getPersontage(3)}%`}</p></div>
-                            <div className='r-b-c wmia mt10'><p className='w50' style={{minWidth:"50px"}}>2 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(2)}%` }}></span></div><p className='ml10'>{`${getPersontage(2)}%`}</p></div>
-                            <div className='r-b-c wmia mt10'><p className='w50' style={{minWidth:"50px"}}>1 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(1)}%` }}></span></div><p className='ml10'>{`${getPersontage(1)}%`}</p></div>
-                        </div>
-                        <button className='r-c-c mt20 mrauto br20 hoverEff1 p10 w200 br5' onClick={() => dispatch(showReviewa())}>View Reviews <svg className='ml10' version="1.1" viewBox="0 0 2048 2048" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
-                            <path transform="translate(403,191)" d="m0 0h1244l35 2 24 3 16 4 17 6 20 10 13 9 16 12 12 11 8 8 13 17 11 18 8 16 6 15 5 18 3 24 1 19v632l-1 21-3 10-7 13-12 13-7 6-10 5-14 3h-19l-12-3-12-5-12-9-8-9-7-12-3-11-1-9-1-26-1-49v-575l-2-13-5-12-8-12-6-7-11-7-10-4-14-2-47-1-919-1h-86l-195 1-44 1-17 2-10 5-13 11-9 13-5 12-2 11-1 18-1 74v1177l1 22 3 18 3 8 7 10 7 8 10 7 10 5 14 3 10 1 613 1 28 1 13 1 10 3 12 7 12 12 7 10 4 8 3 10v23l-4 12-7 12-11 13-8 7-9 5-13 2-12 1-41 1h-596l-28-2-25-4-24-8-16-8-14-8-12-9-14-12-11-11-9-11-9-12-12-20-7-15-6-18-5-23-2-19-2-50-1-50v-1079l1-93 1-28 2-22 4-20 7-19 7-15 8-15 10-15 13-16 14-14 16-12 15-10 23-12 24-8 25-4 13-1z" />
-                            <path transform="translate(1336,1045)" d="m0 0h51l25 2 28 5 24 7 26 10 23 11 19 11 18 12 17 13 13 11 8 7 7 8 12 12 11 14 11 15 12 19 9 16 9 19 11 29 7 25 5 27 3 27v38l-2 20-5 29-6 24-10 29-8 18-2 4 1 6 16 12 14 11 20 16 16 13 28 22 16 13 14 11 11 9 14 11 15 12 11 9 13 13 9 13 5 13 1 6v17l-3 11-6 12-7 10-9 10-12 7-18 6-10 1h-7l-16-5-17-10-26-20-16-13-14-11-32-26-14-11-16-13-14-11-17-14-14-11-12-10-5-2-6 1-8 6-14 10-18 11-23 12-25 10-24 8-21 5-36 6-19 2h-31l-36-4-20-4-30-9-27-11-16-8-17-9-21-14-13-10-11-9-12-11-5-4-7-8-11-12-13-17-10-14-11-18-12-23-9-21-7-19-7-25-5-27-2-16-1-14v-29l3-28 5-25 6-23 9-25 9-20 8-16 9-16 9-14 13-17 11-13 4-5 19-19 8-7 12-10 13-10 15-10 25-14 24-11 20-7 20-6 25-5zm12 129-22 3-21 5-16 6-16 8-14 9-12 9-13 11-13 13-10 13-9 14-8 14-8 17-6 19-4 19-2 18v25l2 19 6 25 6 17 12 23 14 21 9 10 7 8 12 11 18 13 14 8 16 8 19 7 26 6 18 2h29l19-3 23-6 20-8 21-11 19-13 14-12 10-10 8-10 10-14 10-18 8-19 5-16 3-15 3-24v-20l-3-26-4-19-7-19-11-23-10-16-11-14-11-12-12-11-17-12-16-9-19-9-22-7-22-4-12-1z" />
-                            <path transform="translate(587,618)" d="m0 0h863l16 2 10 3 11 6 9 8 10 14 6 12 3 11v13l-3 12-8 16-9 12-8 8-12 6-12 3-22 2-734 1h-108l-14-1-15-4-11-8-8-7-8-10-8-16-3-11v-17l4-14 6-10 6-8 10-10 11-8 11-4z" />
-                            <path transform="translate(598,959)" d="m0 0h328l29 2 11 4 11 7 9 9 9 13 6 13 2 8v16l-4 13-7 14-7 9-7 7-8 6-13 4-16 2-33 1h-313l-18-2-10-4-11-8-10-10-7-11-5-12-2-9v-17l6-18 7-11 5-6 11-9 11-7 4-2 6-1z" />
-                        </svg>
-                        </button>
-                    </>
+        return (
+            <div ref={ref} className='displayRattngsCmp c-s-s  h300 bg-l b10 p20'>
+                {
+                    isLoadingRating ?
+                        <div className="loader"></div>
+                        : <>
+                            <span className='r-s-c mb20'><svg version="1.1" viewBox="0 0 2048 2048" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+                                <path transform="translate(1017,44)" d="m0 0h10l18 2 18 5 17 8 12 9 8 7 9 11 10 15 13 26 11 26 12 28 19 45 17 40 24 56 11 26 12 28 16 37 19 45 30 70 19 45 13 30 14 33 7 14 3 4 10 2 100 10 130 11 199 18 125 12 32 4 17 4 13 5 14 8 11 9 10 10 8 11 11 18 7 14 2 7v50l-2 4-4 4-9 17-9 12-9 10-7 7-7 8-8 7-8 8-8 7-10 9-11 9-15 14-11 9-15 13-11 10-8 7-14 12-7 7-11 9-11 10-11 9-11 10-8 7-10 9-11 9-15 13-12 11-8 7-10 9-8 7-10 9-8 7-11 9-12 11-11 9-12 11-11 9-12 11-8 7-12 11-11 9-9 9-11 9-9 8-14 11-14 12-3 3h-2l-2 4-1 6 3 17 8 36 13 59 11 49 13 57 11 48 12 54 12 53 13 57 11 48 13 57 6 27 4 27 1 10v11l-2 17-6 16-9 16-9 12-15 15-10 7-14 7-21 6-15 3h-19l-18-4-16-6-20-10-24-14-32-19-23-14-45-27-28-17-32-19-28-17-55-33-32-19-23-14-30-18-28-17-20-12-27-16-21-12-25-15-18-11-6-4-6 1-24 14-28 17-39 23-28 17-45 27-28 17-29 17-20 12-22 13-30 18-29 17-16 10-24 14-28 17-20 12-26 15-25 15-28 17-24 13-16 6-25 6-13 1-20-3-17-5-19-10-12-11-10-10-10-15-9-19-5-15-1-7v-22l4-28 9-41 16-71 15-66 9-39 17-75 20-88 16-71 13-57 5-23 7-30v-8l-7-9-13-11-8-7-28-24-10-9-8-7-10-9-11-9-7-7-8-7-10-9-11-9-13-12-11-9-14-13-11-9-12-11-11-9-11-10-8-7-15-13-10-9-8-7-10-9-11-9-12-11-8-7-14-12-10-9-11-9-10-9-11-9-14-13-8-7-20-18-12-11-8-7-10-9-11-9-22-22-8-11-14-25-2-3v-56l11-19 6-11 14-17 11-11 15-10 13-6 13-4 25-4 129-12 124-11 93-9 69-6 108-10 44-4 12-3 4-4 8-15 15-37 17-39 15-35 12-29 8-19 5-11 12-28 7-17 5-11 13-31 19-44 11-26 48-112 12-29 12-28 11-25 10-19 13-17 7-7 12-9 14-8 12-5 11-3z" fill="#FEBF11" />
+                            </svg>
+                                <h1 className='ml15'>{prodDate.rating}</h1>
+                            </span>
+                            <div className="wmia c-s-s mt10 mb20 cntINputsRang">
+                                <div className='r-b-c wmia '>    <p className='w50' style={{ minWidth: "50px" }}>5 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(5)}%` }}></span></div><p className='ml10'>{`${getPersontage(5)}%`}</p></div>
+                                <div className='r-b-c wmia mt10'><p className='w50' style={{ minWidth: "50px" }}>4 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(4)}%` }}></span></div><p className='ml10'>{`${getPersontage(4)}%`}</p></div>
+                                <div className='r-b-c wmia mt10'><p className='w50' style={{ minWidth: "50px" }}>3 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(3)}%` }}></span></div><p className='ml10'>{`${getPersontage(3)}%`}</p></div>
+                                <div className='r-b-c wmia mt10'><p className='w50' style={{ minWidth: "50px" }}>2 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(2)}%` }}></span></div><p className='ml10'>{`${getPersontage(2)}%`}</p></div>
+                                <div className='r-b-c wmia mt10'><p className='w50' style={{ minWidth: "50px" }}>1 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(1)}%` }}></span></div><p className='ml10'>{`${getPersontage(1)}%`}</p></div>
+                            </div>
+                            <button className='r-c-c mt20 mrauto br20 hoverEff1 p10 w200 br5' onClick={() => dispatch(showReviewa())}>View Reviews <svg className='ml10' version="1.1" viewBox="0 0 2048 2048" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+                                <path transform="translate(403,191)" d="m0 0h1244l35 2 24 3 16 4 17 6 20 10 13 9 16 12 12 11 8 8 13 17 11 18 8 16 6 15 5 18 3 24 1 19v632l-1 21-3 10-7 13-12 13-7 6-10 5-14 3h-19l-12-3-12-5-12-9-8-9-7-12-3-11-1-9-1-26-1-49v-575l-2-13-5-12-8-12-6-7-11-7-10-4-14-2-47-1-919-1h-86l-195 1-44 1-17 2-10 5-13 11-9 13-5 12-2 11-1 18-1 74v1177l1 22 3 18 3 8 7 10 7 8 10 7 10 5 14 3 10 1 613 1 28 1 13 1 10 3 12 7 12 12 7 10 4 8 3 10v23l-4 12-7 12-11 13-8 7-9 5-13 2-12 1-41 1h-596l-28-2-25-4-24-8-16-8-14-8-12-9-14-12-11-11-9-11-9-12-12-20-7-15-6-18-5-23-2-19-2-50-1-50v-1079l1-93 1-28 2-22 4-20 7-19 7-15 8-15 10-15 13-16 14-14 16-12 15-10 23-12 24-8 25-4 13-1z" />
+                                <path transform="translate(1336,1045)" d="m0 0h51l25 2 28 5 24 7 26 10 23 11 19 11 18 12 17 13 13 11 8 7 7 8 12 12 11 14 11 15 12 19 9 16 9 19 11 29 7 25 5 27 3 27v38l-2 20-5 29-6 24-10 29-8 18-2 4 1 6 16 12 14 11 20 16 16 13 28 22 16 13 14 11 11 9 14 11 15 12 11 9 13 13 9 13 5 13 1 6v17l-3 11-6 12-7 10-9 10-12 7-18 6-10 1h-7l-16-5-17-10-26-20-16-13-14-11-32-26-14-11-16-13-14-11-17-14-14-11-12-10-5-2-6 1-8 6-14 10-18 11-23 12-25 10-24 8-21 5-36 6-19 2h-31l-36-4-20-4-30-9-27-11-16-8-17-9-21-14-13-10-11-9-12-11-5-4-7-8-11-12-13-17-10-14-11-18-12-23-9-21-7-19-7-25-5-27-2-16-1-14v-29l3-28 5-25 6-23 9-25 9-20 8-16 9-16 9-14 13-17 11-13 4-5 19-19 8-7 12-10 13-10 15-10 25-14 24-11 20-7 20-6 25-5zm12 129-22 3-21 5-16 6-16 8-14 9-12 9-13 11-13 13-10 13-9 14-8 14-8 17-6 19-4 19-2 18v25l2 19 6 25 6 17 12 23 14 21 9 10 7 8 12 11 18 13 14 8 16 8 19 7 26 6 18 2h29l19-3 23-6 20-8 21-11 19-13 14-12 10-10 8-10 10-14 10-18 8-19 5-16 3-15 3-24v-20l-3-26-4-19-7-19-11-23-10-16-11-14-11-12-12-11-17-12-16-9-19-9-22-7-22-4-12-1z" />
+                                <path transform="translate(587,618)" d="m0 0h863l16 2 10 3 11 6 9 8 10 14 6 12 3 11v13l-3 12-8 16-9 12-8 8-12 6-12 3-22 2-734 1h-108l-14-1-15-4-11-8-8-7-8-10-8-16-3-11v-17l4-14 6-10 6-8 10-10 11-8 11-4z" />
+                                <path transform="translate(598,959)" d="m0 0h328l29 2 11 4 11 7 9 9 9 13 6 13 2 8v16l-4 13-7 14-7 9-7 7-8 6-13 4-16 2-33 1h-313l-18-2-10-4-11-8-10-10-7-11-5-12-2-9v-17l6-18 7-11 5-6 11-9 11-7 4-2 6-1z" />
+                            </svg>
+                            </button>
+                        </>
+                }
+            </div>
+        )
+    } else {
+
+        useEffect(() => {
+            if (BackendEleme.current) {
+                const document_Click = (e) => {
+                    if (!popup_rating.current?.contains(e.target)) {
+
+                        document.removeEventListener("mousedown", document_Click)
+                        Close_popup();
+
+                    }
+                }
+                document.addEventListener("mousedown", document_Click);
             }
-        </div>
-    )
+
+        }, [])
+
+        return ReactDom.createPortal(
+            <div className="backendMer" ref={BackendEleme}>
+                <div ref={popup_rating} style={{ width: "95%" }} className='activeCmp c-s-s   br10 h300 bg-l b10 p20'>
+                    {
+                        isLoadingRating ?
+                            <div className="loader"></div>
+                            : <>
+                                <span className='r-s-c mb20'><svg version="1.1" viewBox="0 0 2048 2048" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+                                    <path transform="translate(1017,44)" d="m0 0h10l18 2 18 5 17 8 12 9 8 7 9 11 10 15 13 26 11 26 12 28 19 45 17 40 24 56 11 26 12 28 16 37 19 45 30 70 19 45 13 30 14 33 7 14 3 4 10 2 100 10 130 11 199 18 125 12 32 4 17 4 13 5 14 8 11 9 10 10 8 11 11 18 7 14 2 7v50l-2 4-4 4-9 17-9 12-9 10-7 7-7 8-8 7-8 8-8 7-10 9-11 9-15 14-11 9-15 13-11 10-8 7-14 12-7 7-11 9-11 10-11 9-11 10-8 7-10 9-11 9-15 13-12 11-8 7-10 9-8 7-10 9-8 7-11 9-12 11-11 9-12 11-11 9-12 11-8 7-12 11-11 9-9 9-11 9-9 8-14 11-14 12-3 3h-2l-2 4-1 6 3 17 8 36 13 59 11 49 13 57 11 48 12 54 12 53 13 57 11 48 13 57 6 27 4 27 1 10v11l-2 17-6 16-9 16-9 12-15 15-10 7-14 7-21 6-15 3h-19l-18-4-16-6-20-10-24-14-32-19-23-14-45-27-28-17-32-19-28-17-55-33-32-19-23-14-30-18-28-17-20-12-27-16-21-12-25-15-18-11-6-4-6 1-24 14-28 17-39 23-28 17-45 27-28 17-29 17-20 12-22 13-30 18-29 17-16 10-24 14-28 17-20 12-26 15-25 15-28 17-24 13-16 6-25 6-13 1-20-3-17-5-19-10-12-11-10-10-10-15-9-19-5-15-1-7v-22l4-28 9-41 16-71 15-66 9-39 17-75 20-88 16-71 13-57 5-23 7-30v-8l-7-9-13-11-8-7-28-24-10-9-8-7-10-9-11-9-7-7-8-7-10-9-11-9-13-12-11-9-14-13-11-9-12-11-11-9-11-10-8-7-15-13-10-9-8-7-10-9-11-9-12-11-8-7-14-12-10-9-11-9-10-9-11-9-14-13-8-7-20-18-12-11-8-7-10-9-11-9-22-22-8-11-14-25-2-3v-56l11-19 6-11 14-17 11-11 15-10 13-6 13-4 25-4 129-12 124-11 93-9 69-6 108-10 44-4 12-3 4-4 8-15 15-37 17-39 15-35 12-29 8-19 5-11 12-28 7-17 5-11 13-31 19-44 11-26 48-112 12-29 12-28 11-25 10-19 13-17 7-7 12-9 14-8 12-5 11-3z" fill="#FEBF11" />
+                                </svg>
+                                    <h1 className='ml15'>{prodDate.rating}</h1>
+                                </span>
+                                <div className="wmia c-s-s mt10 mb20 cntINputsRang">
+                                    <div className='r-b-c wmia '>    <p className='w50' style={{ minWidth: "50px" }}>5 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(5)}%` }}></span></div><p className='ml10'>{`${getPersontage(5)}%`}</p></div>
+                                    <div className='r-b-c wmia mt10'><p className='w50' style={{ minWidth: "50px" }}>4 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(4)}%` }}></span></div><p className='ml10'>{`${getPersontage(4)}%`}</p></div>
+                                    <div className='r-b-c wmia mt10'><p className='w50' style={{ minWidth: "50px" }}>3 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(3)}%` }}></span></div><p className='ml10'>{`${getPersontage(3)}%`}</p></div>
+                                    <div className='r-b-c wmia mt10'><p className='w50' style={{ minWidth: "50px" }}>2 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(2)}%` }}></span></div><p className='ml10'>{`${getPersontage(2)}%`}</p></div>
+                                    <div className='r-b-c wmia mt10'><p className='w50' style={{ minWidth: "50px" }}>1 star</p><div className="rangerInpu r-s-s "><span className=' inputsosdf' style={{ width: `${getPersontage(1)}%` }}></span></div><p className='ml10'>{`${getPersontage(1)}%`}</p></div>
+                                </div>
+                                <button className='r-c-c mt20 mrauto br20 hoverEff1 p10 wmia br5' onClick={() => dispatch(showReviewa())}>View Reviews <svg className='ml10' version="1.1" viewBox="0 0 2048 2048" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+                                    <path transform="translate(403,191)" d="m0 0h1244l35 2 24 3 16 4 17 6 20 10 13 9 16 12 12 11 8 8 13 17 11 18 8 16 6 15 5 18 3 24 1 19v632l-1 21-3 10-7 13-12 13-7 6-10 5-14 3h-19l-12-3-12-5-12-9-8-9-7-12-3-11-1-9-1-26-1-49v-575l-2-13-5-12-8-12-6-7-11-7-10-4-14-2-47-1-919-1h-86l-195 1-44 1-17 2-10 5-13 11-9 13-5 12-2 11-1 18-1 74v1177l1 22 3 18 3 8 7 10 7 8 10 7 10 5 14 3 10 1 613 1 28 1 13 1 10 3 12 7 12 12 7 10 4 8 3 10v23l-4 12-7 12-11 13-8 7-9 5-13 2-12 1-41 1h-596l-28-2-25-4-24-8-16-8-14-8-12-9-14-12-11-11-9-11-9-12-12-20-7-15-6-18-5-23-2-19-2-50-1-50v-1079l1-93 1-28 2-22 4-20 7-19 7-15 8-15 10-15 13-16 14-14 16-12 15-10 23-12 24-8 25-4 13-1z" />
+                                    <path transform="translate(1336,1045)" d="m0 0h51l25 2 28 5 24 7 26 10 23 11 19 11 18 12 17 13 13 11 8 7 7 8 12 12 11 14 11 15 12 19 9 16 9 19 11 29 7 25 5 27 3 27v38l-2 20-5 29-6 24-10 29-8 18-2 4 1 6 16 12 14 11 20 16 16 13 28 22 16 13 14 11 11 9 14 11 15 12 11 9 13 13 9 13 5 13 1 6v17l-3 11-6 12-7 10-9 10-12 7-18 6-10 1h-7l-16-5-17-10-26-20-16-13-14-11-32-26-14-11-16-13-14-11-17-14-14-11-12-10-5-2-6 1-8 6-14 10-18 11-23 12-25 10-24 8-21 5-36 6-19 2h-31l-36-4-20-4-30-9-27-11-16-8-17-9-21-14-13-10-11-9-12-11-5-4-7-8-11-12-13-17-10-14-11-18-12-23-9-21-7-19-7-25-5-27-2-16-1-14v-29l3-28 5-25 6-23 9-25 9-20 8-16 9-16 9-14 13-17 11-13 4-5 19-19 8-7 12-10 13-10 15-10 25-14 24-11 20-7 20-6 25-5zm12 129-22 3-21 5-16 6-16 8-14 9-12 9-13 11-13 13-10 13-9 14-8 14-8 17-6 19-4 19-2 18v25l2 19 6 25 6 17 12 23 14 21 9 10 7 8 12 11 18 13 14 8 16 8 19 7 26 6 18 2h29l19-3 23-6 20-8 21-11 19-13 14-12 10-10 8-10 10-14 10-18 8-19 5-16 3-15 3-24v-20l-3-26-4-19-7-19-11-23-10-16-11-14-11-12-12-11-17-12-16-9-19-9-22-7-22-4-12-1z" />
+                                    <path transform="translate(587,618)" d="m0 0h863l16 2 10 3 11 6 9 8 10 14 6 12 3 11v13l-3 12-8 16-9 12-8 8-12 6-12 3-22 2-734 1h-108l-14-1-15-4-11-8-8-7-8-10-8-16-3-11v-17l4-14 6-10 6-8 10-10 11-8 11-4z" />
+                                    <path transform="translate(598,959)" d="m0 0h328l29 2 11 4 11 7 9 9 9 13 6 13 2 8v16l-4 13-7 14-7 9-7 7-8 6-13 4-16 2-33 1h-313l-18-2-10-4-11-8-10-10-7-11-5-12-2-9v-17l6-18 7-11 5-6 11-9 11-7 4-2 6-1z" />
+                                </svg>
+                                </button>
+                            </>
+                    }
+                </div>
+            </div>
+            , document.getElementById("portlas")
+        )
+    }
+
 });
 
 
 export const ReviewReviews = () => {
     const dispatch = useDispatch();
-    const { isVisible,
-        isLoadingRating,
-        prodDate, reviewReviewsVsbl } = useSelector(st => st.displayRating)
+    const isWorkingOnPC = window.innerWidth > 800;
+    const { prodDate, reviewReviewsVsbl } = useSelector(st => st.displayRating)
     const reviewRed = useRef();
 
     const handelCligkOur = (e) => {
@@ -112,7 +163,7 @@ export const ReviewReviews = () => {
 
     return ReactDom.createPortal(
         <div className="backendMer" onClick={handelCligkOur} >
-            <div className="w500 activeCmp bg-l br10 p20" ref={reviewRed} style={{ position: "relative", }} >
+            <div className="activeCmp bg-l br10 p20" ref={reviewRed} style={isWorkingOnPC ? { position: "relative" ,width:"500px" } : {position:"relative" ,width:"95%"}} >
                 <button className='btnClose' onClick={() => dispatch(hideReviewa())}><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg></button>
                 {
                     prodDate.reviews.map((rev, index) =>

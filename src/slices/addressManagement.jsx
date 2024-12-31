@@ -364,7 +364,16 @@ export const AddAddress = () => {
             , document.getElementById("portlas")
         )
     } else {
+
+
         useEffect(() => {
+            
+            if (window.location.pathname != "/add_address") {
+                console.log('deffre');
+                navigate('/add_address')
+                return;
+            }
+
             MainPagePuRef.current?.scrollIntoView({
                 behavior: "smooth", block: "start"
             })

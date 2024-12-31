@@ -1057,6 +1057,18 @@ select {
     align-items: end;
     flex-direction: row;
 }
+.r-c-e {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    flex-direction: row;
+}
+.r-p-e {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: end;
+    flex-direction: row;
+}
 
 .c-c-c {
     display: flex;

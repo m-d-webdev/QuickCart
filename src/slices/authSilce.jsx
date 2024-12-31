@@ -270,7 +270,7 @@ const authSilce = createSlice({
                 state.ResendMessageSent = false
                 state.isRegistersuc = false;
                 localStorage.removeItem('userId');
-                window.location.reload()
+                window.location.href = "/"
             })
             // -----------
             .addCase(ReauthentcateUser.pending, (state) => {
@@ -334,7 +334,6 @@ export const EditProfilePicture = () => {
         </div>, document.getElementById("portlas")
     )
 }
-
 
 export const Reauthenticate = () => {
     let ProviderType = auth.currentUser.providerData[0]?.providerId

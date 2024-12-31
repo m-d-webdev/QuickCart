@@ -1268,7 +1268,7 @@ export const CreateAnOrderCmp = () => {
         const { SendingOrderVSBL, isSendingOrder, orderCompleted, orderFailed } = useSelector(st => st.OrderMan)
         return ReactDom.createPortal(
             <div className='backendMer'>
-                <div style={{
+                <div style={!isWorkingOnPC && {
                     width: "90%"
                 }} className="h300 p20 br20 bg-l c-c-c">
                     {

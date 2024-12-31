@@ -11,6 +11,7 @@ function Register() {
     const navigate = useNavigate()
     const displatch = useDispatch();
     const loginElemRef = useRef();
+    const Inp_name_ref = useRef();
     function handelSubmitForm(e) {
         displatch(registerUser(userObject))
     }
@@ -22,6 +23,11 @@ function Register() {
     useEffect(() => {
         testPass2();
     }, [PasswordCofrimVal, userObject.password])
+
+    
+    useEffect(() => {
+        Inp_name_ref.current?.focus()
+    }, [])
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -83,7 +89,7 @@ function Register() {
                             </h1>
                             <p className='mb20' style={{ textAlign: "center", maxWidth: "400px" }}>Sign up now for personalized recommendations, faster checkouts, and member-only perks!</p>
                             <div className="LabelInpInfo">
-                                <input type="text" id="name" onChange={e => setuserObject(c => ({ ...c, displayName: e.target.value }))} placeholder='' />
+                                <input ref={Inp_name_ref} type="text" id="name" onChange={e => setuserObject(c => ({ ...c, displayName: e.target.value }))} placeholder='' />
                                 <label htmlFor="namel">Full Name</label>
                                 <svg version="1.1" viewBox="0 0 2048 2048" className='iconeLabelInpinfo' xmlns="http://www.w3.org/2000/svg">
                                     <path transform="translate(1818,255)" d="m0 0h29l19 4 16 6 16 9 14 11 12 11 10 9 62 62 7 8 10 11 8 10 11 16 8 14 8 15v78h-2l-3-3v-7l-12 23-11 14-8 10h-2l-2 4-22 22-7 8-5 4-7 8-490 490-8 7-15 12-14 8-16 6-15 4-14 2-19 1h-148l-16-2-8-4-10-8-9-9-7-10-4-9-3-10-1-11-1-29v-53l1-78 3-21 5-15 8-16 10-14 12-14 8-8 7-8 156-156 5-6 8-7 4-5 8-7 7-7 5-6 8-7 4-5 8-7 7-7 1-2h2v-2h2v-2l7-6 7-8 4-2v-2h2v-2l7-6 3-4h2v-2l8-7 131-131 1-2h2v-2h2v-2l7-6 7-8h2v-2h2v-2h2v-2l7-6 3-4h2v-2h2v-2h2v-2l7-6 3-4h2v-2l7-6 1-2h2l2-4 56-56 8-7 15-12 15-9 11-5 17-5zm14 123-8 4-16 17-11 11v2l-4 2v2l-4 2-9 10-3 2v2l-4 2-14 15-10 10-10 8-2 3 8 8 8 7 66 66 3 4h2l2 4 4 4 4-1 11-10 7-8 8-7 6-6v-2h2l4-5 32-32 8-7 13-13-3-7-6-6h-2l-2-4-59-59-7-8-9-8zm213 124-1 5 3-1v-4zm-393 56-5 2-14 15-4 3v2l-4 2v2l-4 2v2l-4 2v2l-4 2-7 8-150 150-6 5-7 8-6 5v2l-4 2v2l-4 2-4 5-4 3v2l-4 2v2l-4 2-4 5-4 3v2l-4 2v2l-4 2-4 5-4 3v2l-4 2-5 6-7 6v2l-4 2-8 9-4 3v2l-4 2v2l-3 1-5 6-4 3v2l-4 2-4 4v2l-4 2-26 26-7 6-4 7-1 58v33l1 1 17 1h68l10-3 11-8 20-20v-2h2v-2h2v-2h2v-2l4-2v-2h2l7-8 5-4v-2h2l7-8 19-19 2-1v-2l4-2 7-8 5-4v-2l4-2 7-8 5-4v-2l4-2 7-8 5-4v-2l4-2 7-8 9-8 7-8 9-8 7-8 9-8 7-8 5-4v-2l4-2 7-8 5-4v-2l4-2 7-8 5-4v-2l4-2 7-8 5-4v-2l4-2 7-8 7-6v-2h2l7-8 7-6v-2h2l7-8 7-6v-2h2l7-8 12-12 7-6v-2l4-2 6-6v-2l4-2 9-8 7-8 5-6-1-4-27-27-8-7-42-42-7-8-5-4z" />
@@ -133,7 +139,7 @@ function Register() {
                             {
                                 errorAuth == 'Firebase: Error (auth/email-already-in-use).' && <p>The email you entered is already in our database, you can just log in with it.</p>
                             }
-                            <button disabled={!allFieldFull} className='bl w200  br20 p10' style={{ alignSelf: "end" }} onClick={handelSubmitForm}>Sign up<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
+                            <button disabled={!allFieldFull} className='bl w200   p5' style={{ alignSelf: "end" }} onClick={handelSubmitForm}>Sign up<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
 
 
                         </>}
@@ -183,7 +189,7 @@ function Register() {
                                 </h1>
                                 <p className='mb20' style={{ textAlign: "center", maxWidth: "400px" }}>Sign up now for personalized recommendations, faster checkouts, and member-only perks!</p>
                                 <div className="LabelInpInfo mt20">
-                                    <input type="text" id="name" onChange={e => setuserObject(c => ({ ...c, displayName: e.target.value }))} placeholder='' />
+                                    <input ref={Inp_name_ref} type="text" id="name" onChange={e => setuserObject(c => ({ ...c, displayName: e.target.value }))} placeholder='' />
                                     <label htmlFor="namel">Full Name</label>
                                     <svg version="1.1" viewBox="0 0 2048 2048" className='iconeLabelInpinfo' xmlns="http://www.w3.org/2000/svg">
                                         <path transform="translate(1818,255)" d="m0 0h29l19 4 16 6 16 9 14 11 12 11 10 9 62 62 7 8 10 11 8 10 11 16 8 14 8 15v78h-2l-3-3v-7l-12 23-11 14-8 10h-2l-2 4-22 22-7 8-5 4-7 8-490 490-8 7-15 12-14 8-16 6-15 4-14 2-19 1h-148l-16-2-8-4-10-8-9-9-7-10-4-9-3-10-1-11-1-29v-53l1-78 3-21 5-15 8-16 10-14 12-14 8-8 7-8 156-156 5-6 8-7 4-5 8-7 7-7 5-6 8-7 4-5 8-7 7-7 1-2h2v-2h2v-2l7-6 7-8 4-2v-2h2v-2l7-6 3-4h2v-2l8-7 131-131 1-2h2v-2h2v-2l7-6 7-8h2v-2h2v-2h2v-2l7-6 3-4h2v-2h2v-2h2v-2l7-6 3-4h2v-2l7-6 1-2h2l2-4 56-56 8-7 15-12 15-9 11-5 17-5zm14 123-8 4-16 17-11 11v2l-4 2v2l-4 2-9 10-3 2v2l-4 2-14 15-10 10-10 8-2 3 8 8 8 7 66 66 3 4h2l2 4 4 4 4-1 11-10 7-8 8-7 6-6v-2h2l4-5 32-32 8-7 13-13-3-7-6-6h-2l-2-4-59-59-7-8-9-8zm213 124-1 5 3-1v-4zm-393 56-5 2-14 15-4 3v2l-4 2v2l-4 2v2l-4 2v2l-4 2-7 8-150 150-6 5-7 8-6 5v2l-4 2v2l-4 2-4 5-4 3v2l-4 2v2l-4 2-4 5-4 3v2l-4 2v2l-4 2-4 5-4 3v2l-4 2-5 6-7 6v2l-4 2-8 9-4 3v2l-4 2v2l-3 1-5 6-4 3v2l-4 2-4 4v2l-4 2-26 26-7 6-4 7-1 58v33l1 1 17 1h68l10-3 11-8 20-20v-2h2v-2h2v-2h2v-2l4-2v-2h2l7-8 5-4v-2h2l7-8 19-19 2-1v-2l4-2 7-8 5-4v-2l4-2 7-8 5-4v-2l4-2 7-8 5-4v-2l4-2 7-8 9-8 7-8 9-8 7-8 9-8 7-8 5-4v-2l4-2 7-8 5-4v-2l4-2 7-8 5-4v-2l4-2 7-8 5-4v-2l4-2 7-8 7-6v-2h2l7-8 7-6v-2h2l7-8 7-6v-2h2l7-8 12-12 7-6v-2l4-2 6-6v-2l4-2 9-8 7-8 5-6-1-4-27-27-8-7-42-42-7-8-5-4z" />

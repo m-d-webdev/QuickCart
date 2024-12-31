@@ -91,15 +91,16 @@ export
                 }
             }, { threshold: 1.0 }
         )
+        
         if (LasteLEMrEF.current) {
             obeserver.observe(LasteLEMrEF.current);
         }
+
         return () => {
             if (LasteLEMrEF.current) {
                 obeserver.unobserve(LasteLEMrEF.current)
             }
         }
-
     }, [SendGetMore])
 
     const SideBareMenu = () => {

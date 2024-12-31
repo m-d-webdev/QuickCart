@@ -26,14 +26,17 @@ const viewProdSlice = createSlice({
     initialState: {
         isVisible: false,
         isLoadingProd: false,
+        current_scroll_y: null,
         prodData: []
     },
     reducers: {
         showViewProd: (state) => {
+            state.current_scroll_y = window.scrollY;
             state.isVisible = true;
         },
         hideViewProd: (state) => {
             state.isVisible = false;
+            window.scrollTo({ top: state.current_scroll_y ,behavior:"smooth"})
         }
     },
     extraReducers: (builder) => {
@@ -73,7 +76,7 @@ export function ViewProd() {
         if (elemRef.current) {
             elemRef.current.scrollIntoView({
                 behavior: "smooth",
-                block: "center",
+                block: "start",
             })
         }
         (prodData.images) ? setCurrentImg(prodData.images[0]) : null
@@ -306,7 +309,7 @@ export function ViewProd() {
                                             <p className="mr10 ml10">Price : </p>
                                             <h1 className='logo'>{prodData.price} $</h1>
                                         </span>
-                                        <div className="r-c-c cntBtnsOrder">
+                                        <div className="r-c-e cntBtnsOrder">
                                             <BTN_MAN_ORDER prod={prodData} />
                                             <BTN_ADD_TO_CART prod_id={prodData.id} />
                                         </div>
@@ -352,7 +355,7 @@ export function ViewProd() {
         }, [WindowWidth])
 
         return (
-            <div className='c-s-s wmia'  style={{zIndex:"3"}} >
+            <div className='c-s-s wmia'  >
                 <div ref={elemRef} style={{ minHeight: "400px" }} className='wmia psr c-s-s bg-l p5'>
                     {
                         isLoadingProd ? <div className="loader"></div> :
@@ -490,9 +493,9 @@ export function ViewProd() {
                                         <p className="mr10 ml10">Price : </p>
                                         <h1 className='logo'>{prodData.price} $</h1>
                                     </span>
-                                    <div className="r-p-c cntBtnsOrder2 wmia">
+                                    <div className="r-p-e cntBtnsOrder2 wmia">
                                         <BTN_MAN_ORDER prod={prodData} />
-                                        <BTN_ADD_TO_CART prod_id={prodData.id} style={{ width: "50%" }} />
+                                        <BTN_ADD_TO_CART prod_id={prodData.id} />
                                     </div>
                                 </div>
 

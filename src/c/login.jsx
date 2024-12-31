@@ -107,7 +107,7 @@ function Login() {
             <div className='backendMer' ref={loginElemRef}>
                 <div style={{ position: "relative" }} className="activeCmp  c-p-c w600 h500 br10 bg-l p15">
                     {isLoadingAuth ?
-                        <div className="loader"></div>
+                        <div className="spinner2"></div>
                         :
                         <>
                             <span className='btnClose' onClick={handelHideLoginCom}><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg></span>
@@ -144,11 +144,10 @@ function Login() {
                                 </p>
                             }
                             {
-                                <span className='wmia r-b-c' onClick={() => {
-                                    // displatch(hideLogin())
-                                    displatch(showRegister())
-                                }}>
-                                    <strong style={{ cursor: "pointer" }} className='ml20'> Create an account</strong>
+                                <span className='wmia r-b-c' >
+                                    <strong onClick={() => {
+                                        displatch(showRegister())
+                                    }} style={{ cursor: "pointer" }} className='ml20'> Create an account</strong>
                                     <button disabled={!allFieledAddes} style={{ alignSelf: "end" }} className='bl w200 br5 p5' onClick={handelSubmitLoginForm}>Log in <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
                                 </span>
                             }
@@ -164,14 +163,14 @@ function Login() {
     } else {
         return (
             <>
-                <div style={{ position: "relative" , paddingTop:"300px" }} className=" c-s-c wmia  br10  p10">
+                <div style={{ position: "relative", paddingTop: "300px" }} className=" c-s-c wmia  br10  p10">
                     {isLoadingAuth ?
-                        <div className="loader"></div>
+                        <div className="loader3"></div>
                         :
                         <>
-                            <img  src="imgs/rb_7863-removebg-preview.png" alt="" className="wmia FielsDesSds" />
+                            <img src="imgs/rb_7863-removebg-preview.png" alt="" className="wmia FielsDesSds" />
                             <div className='wmia  bg-l p20 br20 c-p-s' style={{
-                                filter:" drop-shadow(0 0 10px var(--filter-color))"
+                                filter: " drop-shadow(0 0 10px var(--filter-color))"
                             }}>
 
                                 <h1 className='r-s-c wmia pb20 mb20' style={{ borderBottom: "solid 1px var(--border-color)" }}>
@@ -207,10 +206,7 @@ function Login() {
                                     </p>
                                 }
                                 {
-                                    <span className='wmia r-b-c' onClick={() => {
-                                        // displatch(hideLogin())
-                                        displatch(showRegister())
-                                    }}>
+                                    <span className='wmia r-b-c' >
                                         <button disabled={!allFieledAddes} className='bl mt50 wmia br20 p10' onClick={handelSubmitLoginForm}>Log in <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
                                     </span>
                                 }
