@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom'
 import jsPDF from 'jspdf'
 import GoodLoader from '../c/singles/goodLoader';
 import { showLogin } from './loginSlice';
+import ImgLoader from '../c/singles/ImgLoader';
 export const GetAllOrders = createAsyncThunk(
     "OrdersManSlice/GetAllOrders",
     async (_, { rejectWithValue }) => {
@@ -1412,6 +1413,8 @@ export const OrdersAndreturnPage = () => {
         ({ ob }) => {
             const [LoadingProdInfo, setLoadingProdInfo] = useState(true)
             const [SignleProdInfo, setSignleProdInfo] = useState(ob)
+            const [isLoaingImage, setLoadingImg] = useState(true)
+
             async function getSingleProdIngo() {
                 const res = await api.get('/products/' + ob.id)
                 setSignleProdInfo(cu => ({ ...cu, ...res.data }))
@@ -1432,7 +1435,11 @@ export const OrdersAndreturnPage = () => {
                             LoadingProdInfo ? <GoodLoader /> :
 
                                 <>
-                                    <img className='w200 mr20' src={SignleProdInfo.images[0]} alt="" />
+                                    {
+                                        isLoaingImage &&
+                                        <ImgLoader />
+                                    }
+                                    <img onLoad={() => setLoadingImg(false)} className='w200 mr20' src={SignleProdInfo.images[0]} alt="" />
                                     <div className="c-s-s">
                                         <h1 className="mb10">
                                             {SignleProdInfo.title}

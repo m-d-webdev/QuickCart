@@ -34,7 +34,6 @@ export const LottieDone = ({ w, h }) => {
         loop: false,
         autoplay: true,
         animationData: animationDat,
-
     };
 
     return (

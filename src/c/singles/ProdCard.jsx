@@ -6,6 +6,7 @@ import { getViewProd } from "../shopping/viewProd"
 import { showViewProd, hideViewProd } from '../shopping/viewProd';
 import { getProd } from './rattingCmp';
 import { BTN_ADD_TO_CART } from '../../slices/btnAddToCart';
+import ImgLoader from './ImgLoader';
 export const RattingCmp = ({ product }) => {
     const isWorkingOnPC = window.innerWidth > 800;
 
@@ -49,6 +50,7 @@ const ProductCard = React.forwardRef(({ product }, ref) => {
         dispatch(showViewProd())
         dispatch(getViewProd(product.id))
     };
+    const [isLoaingImage, setLoadingImg] = useState(true)
 
     const subStr_desc = (text) => {
         if (!isWorkingOnPC) {
@@ -73,7 +75,10 @@ const ProductCard = React.forwardRef(({ product }, ref) => {
     return (
         <>
             <div ref={ref} id={product.id} className="cntProd w300  c-p-s br10 p10 ml10 mt50 bg-l" >
-                <img onClick={handelGoToViewProd} src={product.images[0]} loading='lazy' alt="" />
+                {isLoaingImage &&
+                    <ImgLoader />
+                }
+                <img onLoad={() => setLoadingImg(false)} onClick={handelGoToViewProd} src={product.images[0]} loading='lazy' alt="" />
                 <div className="cntOtherProdsInfo c-s-s">
 
                     <h1 onClick={handelGoToViewProd} className='mt10' style={{ cursor: "pointer" }}>{product.title}</h1>

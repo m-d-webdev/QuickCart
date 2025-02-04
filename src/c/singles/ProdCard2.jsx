@@ -1,15 +1,23 @@
 import { useState, useEffect, useRef } from 'react'
 import "../../css/mainShopping.css"
 import { useDispatch, useSelector } from 'react-redux';
+import ImgLoader from './ImgLoader';
 
 
 const ProductCard2 = ({ product }) => {
     const dispatch = useDispatch();
+    const [isLoaingImage, setLoadingImg] = useState(true)
 
     return (
         <>
             <div className="cntProd w300  c-p-s br10 p10 ml10 mt50 bg-l">
-                <img src={product.images[0]} alt="" />
+
+                {
+                    isLoaingImage &&
+                    <ImgLoader />
+                }
+
+                <img onLoad={() => setLoadingImg(false)} src={product.images[0]} alt="" />
                 <div className="cntOtherProdsInfo c-s-s">
                     <h1 className='mt10' style={{ cursor: "pointer" }}>{product.title}</h1>
                     <p className="mt10 mb20">
