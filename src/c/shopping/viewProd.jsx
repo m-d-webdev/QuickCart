@@ -8,6 +8,7 @@ import { GetMoreOfSame, hideMoreOfSame, MoreOfSameCmp, setOrinOriginaleTtitle } 
 import { BTN_MAN_SAVE_PRODS } from '../../slices/saveProdsSlice';
 import { BTN_MAN_ADD_TO_WISH_LIST } from '../../slices/WishListMan';
 import { BTN_MAN_ORDER } from '../../slices/OrdersMan';
+import ImgLoader from '../singles/ImgLoader';
 
 export const getViewProd = createAsyncThunk(
     "viewProd/getViewProd",
@@ -36,7 +37,7 @@ const viewProdSlice = createSlice({
         },
         hideViewProd: (state) => {
             state.isVisible = false;
-            window.scrollTo({ top: state.current_scroll_y ,behavior:"smooth"})
+            window.scrollTo({ top: state.current_scroll_y, behavior: "smooth" })
         }
     },
     extraReducers: (builder) => {
@@ -353,7 +354,6 @@ export function ViewProd() {
             }
 
         }, [WindowWidth])
-
         return (
             <div className='c-s-s wmia'  >
                 <div ref={elemRef} style={{ minHeight: "400px" }} className='wmia psr c-s-s bg-l p5'>
@@ -367,13 +367,24 @@ export function ViewProd() {
                                     <div className="cntIMgaerForPonoe r-s-c psr  overHdn " style={conteinerSectinoImageStyle} >
                                         <section className='r-s-c' style={{ transition: "1s", transform: `translateX(${counterTransrom}px)` }}>
                                             {
-                                                prodData.images.map((img, index) =>
-                                                    <div key={index} style={conteinerImageStyle} className="c-c-c  cntMinuImgs " onMouseMove={handelChangePosi} ref={ContanerImgaRef}>
-                                                        <img src={img}
-                                                            onMouseEnter={() => setmignafierVSBLITY(true)}
-                                                            onMouseLeave={() => setmignafierVSBLITY(false)}
-                                                            alt="" />
-                                                    </div>
+                                                prodData.images.map((img, index) => {
+                                                    const [ImgLoading, setImgLoading] = useState(true)
+                                                    return (
+                                                        <>
+                                                            {
+                                                                ImgLoading &&
+                                                                <ImgLoader />
+                                                            }
+                                                            <div key={index} style={conteinerImageStyle} className="c-c-c  cntMinuImgs " onMouseMove={handelChangePosi} ref={ContanerImgaRef}>
+
+                                                                <img src={img}
+                                                                    onLoad={() => setImgLoading(false)}
+                                                                    onMouseEnter={() => setmignafierVSBLITY(true)}
+                                                                    onMouseLeave={() => setmignafierVSBLITY(false)}
+                                                                    alt="" />
+                                                            </div>
+                                                        </>)
+                                                }
                                                 )
                                             }
                                         </section>

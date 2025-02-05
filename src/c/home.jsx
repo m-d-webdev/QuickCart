@@ -70,7 +70,7 @@ function Home() {
               <p style={{ maxWidth: "800px", color: "#000" }} className='mt50'>Model Height: 6'1 - Wearing Large Big & Tall: Height 6'5 - Wearing XXL Available In Green. Cuban Collar Short Sleeve Front Button Closure Left Chest Pocket Disclaimer: Stripe Placement May Vary 96% Polyester 4% ElastanePair With "Show Up Slim Slit Pants" Or "Show Up Basketball Shorts" Imported | Mens Show Up Short Sleeve Cuban Shirt in Green size XL by Fashion Nova</p>
               <button className='bl w200 br20 p10 mt20'>Check out<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
             </div>
-            <img style={{ width: "500px", minWidth: "400px" }} src="imgs/menCloth.jpg" alt="" />
+            <img style={{ width: "500px", minWidth: "400px" }} src="/imgs/menCloth.jpg" alt="" />
           </div>
           <div style={{ backgroundColor: "#fafafa" }} className="r-p-c cntAdCm mt100">
             <div className="c-s-s p10">
@@ -84,7 +84,7 @@ function Home() {
                 Perfect for all occasions.</p>
               <button className='bl w200 br20 p10 mt20'>Check out<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
             </div>
-            <img src="imgs/riha.jpg" alt="" />
+            <img src="/imgs/riha.jpg" alt="" />
           </div>
 
           <div style={{ backgroundColor: "#020202" }} className="r-p-c cntAdCm mt100">
@@ -93,7 +93,7 @@ function Home() {
               <p style={{ maxWidth: "800px", color: "#000", color: "#fff" }} className='mt50 '>Swiss Haute Horlogerie Manufacturer Audemars Piguet  has once again graced the Salon de la Haute Horlogerie Internationale with its presence, and its lineup of exceptional watches was impressive – to say the least.</p>
               <button className='bl w200 br20 p10 mt20'>Check out<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
             </div>
-            <img src="imgs/Audemars Piguet.jpg" alt="" />
+            <img src="/imgs/Audemars Piguet.jpg" alt="" />
           </div>
           <div style={{ backgroundColor: "#cbcac5" }} className="r-p-c cntAdCm mt100">
             <div className="c-s-s p10">
@@ -101,7 +101,7 @@ function Home() {
               <p style={{ maxWidth: "800px", color: "#000", }} className='mt50 '>Acne Blemish Clarifying Cleanser ── Formulated with a powerful acne treatment and cleanser in one formula, use daily for an exceptional skin improvement effect.</p>
               <button className='bl w200 br20 p10 mt20'>Check out<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
             </div>
-            <img style={{ width: "auto", }} src="imgs/face wash product manipulation.jpg" alt="" />
+            <img style={{ width: "auto", }} src="/imgs/face wash product manipulation.jpg" alt="" />
           </div>
         </div>
         <button className='mrauto'>Check out more featured products <svg className='ml20' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m700-300-57-56 84-84H120v-80h607l-83-84 57-56 179 180-180 180Z" /></svg></button>
