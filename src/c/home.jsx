@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ViewProd } from './shopping/viewProd';
 import { fetchCategory } from '../slices/fetchProdSlice';
+import Image from './singles/Image';
 function Home() {
   const navigate = useNavigate();
   const { isLoadingData, searchTerme, resultSearch, isSearching } = useSelector(s => s.productsManager);
@@ -44,7 +45,7 @@ function Home() {
                       e.products.map(prod =>
                         prod != undefined &&
                         <div key={prod.title} className="c-s-c p10 cntCateProd">
-                          <img src={prod.images[0]} alt="" />
+                          <Image   src={prod.images[0]}  />
                           <p className="mt10">{prod.title}</p>
                         </div>
                       )

@@ -1,16 +1,20 @@
-@font-face {
+/* @font-face {
     font-family: 'Poppins';
     src: url('./css/Parkinsans-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
-
+ */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Parkinsans", sans-serif;
+    font-family: "Parkinsans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
 }
 
 body {
@@ -1057,12 +1061,14 @@ select {
     align-items: end;
     flex-direction: row;
 }
+
 .r-c-e {
     display: flex;
     justify-content: center;
     align-items: end;
     flex-direction: row;
 }
+
 .r-p-e {
     display: flex;
     justify-content: space-evenly;
@@ -1727,6 +1733,36 @@ select {
     }
 }
 
+
+
+
+.imgNotLoadingYet {
+    position: absolute;
+    /* content: ""; */
+    width: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid var(--bg-secondary);
+    /* border-top: 3px solid red; */
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    /* z-index: 10 ; */
+    animation: rotationImg 1s linear infinite;
+}
+
+
+@keyframes rotationImg {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 .displayFlex {
     display: flex;

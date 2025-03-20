@@ -7,6 +7,7 @@ import { showViewProd, hideViewProd } from '../shopping/viewProd';
 import { getProd } from './rattingCmp';
 import { BTN_ADD_TO_CART } from '../../slices/btnAddToCart';
 import ImgLoader from './ImgLoader';
+import Image from './Image';
 export const RattingCmp = ({ product }) => {
     const isWorkingOnPC = window.innerWidth > 800;
 
@@ -75,12 +76,14 @@ const ProductCard = React.forwardRef(({ product }, ref) => {
     return (
         <>
             <div ref={ref} id={product.id} className="cntProd w300  c-p-s br10 p10 ml10 mt50 bg-l" >
-                {isLoaingImage &&
-                    <ImgLoader />
-                }
-                <img onLoad={() => setLoadingImg(false)} onClick={handelGoToViewProd} src={product.images[0]} loading='lazy' alt="" />
-                <div className="cntOtherProdsInfo c-s-s">
 
+                <div className="c-c-c psr wmia">
+
+                    <Image onClick={handelGoToViewProd} src={product.images[0]} alt="" />
+                </div>
+
+                <div className="cntOtherProdsInfo c-s-s">
+                
                     <h1 onClick={handelGoToViewProd} className='mt10' style={{ cursor: "pointer" }}>{product.title}</h1>
                     <p onClick={handelGoToViewProd} className="mt10 mb10">
                         {subStr_desc(product.description)}

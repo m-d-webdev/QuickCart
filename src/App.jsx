@@ -80,6 +80,9 @@ function App() {
         <link
           href="https://fonts.googleapis.com/css2?family=Acme&family=Audiowide&family=Estonia&family=Great+Vibes&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Mirza:wght@400;500;600;700&family=Parkinsans:wght@300..800&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Rubik:ital,wght@0,300..900;1,300..900&family=Russo+One&family=Saira:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
+        <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap" rel="stylesheet"></link>
       </>
       <Header />
       <Routes>
